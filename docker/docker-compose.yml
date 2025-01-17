@@ -1,0 +1,43 @@
+services:
+  postgres_news_api:
+    container_name: postgres_news_api
+    image: postgres:latest
+    restart: always
+    networks:
+     - go-news-api
+    environment:
+      POSTGRES_PASSWORD: ${NEWS_API_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${NEWS_API_POSTGRES_USER}
+      POSTGRES_DATABASE: ${NEWS_API_POSTGRES_DATABASE}
+      POSTGRES_DB: ${NEWS_API_POSTGRES_DATABASE}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s  
+  webserver_news_api:
+    container_name: webserver_news_api
+    restart: always
+    ports:
+      - ${NEWS_API_WEB_PORT}:${NEWS_API_WEB_PORT}
+    build:
+      context: .
+      args:
+        ARG_NEWS_API_DB_DSN: ${NEWS_API_DB_DSN}
+        ARG_NEWS_API_DB_URL: ${NEWS_API_DB_URL}
+        ARG_NEWS_API_WEB_PORT: ${NEWS_API_WEB_PORT}
+        ARG_NEWS_API_LOG_PATH: ${NEWS_API_LOG_PATH}
+        ARG_NEWS_API_UPLOAD_PATH: ${NEWS_API_UPLOAD_PATH}
+    depends_on:
+      postgres_news_api:
+        condition: service_healthy
+        restart: true
+    logging:
+      options:
+        max-size: 10m
+    networks:
+      go-news-api:
+networks:
+  go-news-api:
+    driver: bridge
