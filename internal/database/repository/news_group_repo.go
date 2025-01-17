@@ -11,7 +11,7 @@ import (
 func (repo *Repo) NewsGroupList(ctx context.Context, params map[string]string, loc string) ([]models.NewsGroup, error) {
 	// repo.db.WithContext(ctx).Exec("select pg_sleep(10);") // @debug
 	groups := []models.NewsGroup{}
-	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).Find(&groups).Error
+	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).Preload("Files").Find(&groups).Error
 	return groups, err
 }
 
@@ -32,14 +32,14 @@ func (repo *Repo) NewsGroupExistsUnscoped(ctx context.Context, id int) (bool, er
 // NewsGroupOne Повертає групу новин за ідентифікатором.
 func (repo *Repo) NewsGroupOne(ctx context.Context, id int, loc string) (models.NewsGroup, error) {
 	group := models.NewsGroup{}
-	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).First(&group, id).Error
+	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).Preload("Files").First(&group, id).Error
 	return group, err
 }
 
 // NewsGroupOneUnscoped Повертає м'яко видалену групу новин за ідентифікатором.
 func (repo *Repo) NewsGroupOneUnscoped(ctx context.Context, id int, loc string) (models.NewsGroup, error) {
 	group := models.NewsGroup{}
-	err := repo.db.WithContext(ctx).Unscoped().Preload("CurLang", "loc = ?", loc).First(&group, id).Error
+	err := repo.db.WithContext(ctx).Unscoped().Preload("CurLang", "loc = ?", loc).Preload("Files").First(&group, id).Error
 	return group, err
 }
 

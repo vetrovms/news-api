@@ -1,15 +1,16 @@
 package models
 
 type NewsArticleDTO struct {
-	ID               int          `json:"id"`
-	Alias            string       `json:"alias"`
-	Published        bool         `json:"published"`
-	Title            string       `json:"title"`
-	Content          string       `json:"content"`
-	ShortDescription string       `json:"short_description"`
-	PublishedAt      string       `json:"published_at"`
-	GroupId          int          `json:"group_id"`
-	Group            NewsGroupDTO `json:"group"`
+	ID               int              `json:"id"`
+	Alias            string           `json:"alias"`
+	Published        bool             `json:"published"`
+	Title            string           `json:"title"`
+	Content          string           `json:"content"`
+	ShortDescription string           `json:"short_description"`
+	PublishedAt      string           `json:"published_at"`
+	GroupId          int              `json:"group_id"`
+	Group            NewsGroupDTO     `json:"group"`
+	Files            []*FileUploadDto `json:"files"`
 }
 
 func (dto *NewsArticleDTO) FillModel(model *NewsArticle, loc string) {

@@ -14,9 +14,14 @@ type NewsArticle struct {
 	Group        NewsGroup         `gorm:"foreignKey:id;references:group_id"`
 	Langs        []NewsArticleLang `gorm:"foreignKey:rid;references:id"`
 	CurLang      NewsArticleLang   `gorm:"foreignKey:rid;references:id"`
+	Files        []FileUpload      `gorm:"polymorphicType:EntityType;polymorphicId:EntityId;polymorphicValue:news_articles"`
 }
 
 func (a *NewsArticle) DTO() *NewsArticleDTO {
+	filesDTO := []*FileUploadDto{}
+	for _, f := range a.Files {
+		filesDTO = append(filesDTO, f.DTO())
+	}
 	return &NewsArticleDTO{
 		ID:               int(a.ID),
 		Title:            a.Title(),
@@ -32,6 +37,7 @@ func (a *NewsArticle) DTO() *NewsArticleDTO {
 			Alias:     a.Group.Alias,
 			Published: a.Group.Published,
 		},
+		Files: filesDTO,
 	}
 }
 

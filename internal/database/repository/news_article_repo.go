@@ -11,7 +11,11 @@ import (
 func (repo *Repo) NewsArticleList(ctx context.Context, params map[string]string, loc string) ([]models.NewsArticle, error) {
 	// repo.db.WithContext(ctx).Exec("select pg_sleep(10);") // @debug
 	models := []models.NewsArticle{}
-	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).Preload("Group.CurLang").Find(&models).Error
+	err := repo.db.WithContext(ctx).
+		Preload("CurLang", "loc = ?", loc).
+		Preload("Group.CurLang", "loc = ?", loc).
+		Preload("Files").
+		Find(&models).Error
 	return models, err
 }
 
@@ -32,14 +36,17 @@ func (repo *Repo) NewsArticleExistsUnscoped(ctx context.Context, id int) (bool, 
 // NewsArticleOne Повертає новину за ідентифікатором.
 func (repo *Repo) NewsArticleOne(ctx context.Context, id int, loc string) (models.NewsArticle, error) {
 	model := models.NewsArticle{}
-	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).Preload("Group.CurLang").First(&model, id).Error
+	err := repo.db.WithContext(ctx).Preload("CurLang", "loc = ?", loc).Preload("Group.CurLang", "loc = ?", loc).Preload("Files").First(&model, id).Error
 	return model, err
 }
 
 // NewsArticleOneUnscoped Повертає м'яко новину за ідентифікатором.
 func (repo *Repo) NewsArticleOneUnscoped(ctx context.Context, id int, loc string) (models.NewsArticle, error) {
 	model := models.NewsArticle{}
-	err := repo.db.WithContext(ctx).Unscoped().Preload("CurLang", "loc = ?", loc).Preload("Group.CurLang").First(&model, id).Error
+	err := repo.db.WithContext(ctx).Unscoped().
+		Preload("CurLang", "loc = ?", loc).
+		Preload("Group.CurLang", "loc = ?", loc).
+		Preload("Files").First(&model, id).Error
 	return model, err
 }
 
