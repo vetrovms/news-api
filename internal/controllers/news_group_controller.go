@@ -27,6 +27,18 @@ func NewNewsGroupController(s *services.NewsGroupService) NewsGroupController {
 }
 
 // GetNewsGroups Обробник список груп новин.
+// GetNewsGroups godoc
+// @Summary      список груп новин
+// @Description  список груп новин
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups [get]
 func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -46,6 +58,19 @@ func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 }
 
 // GetNewsGroup Обробник інформація про групу новин.
+// GetNewsGroup godoc
+// @Summary      Інформація про групу новин
+// @Description  Інформація про групу новин
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "id групи новин"
+// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups/{id} [get]
 func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -81,6 +106,18 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 }
 
 // AddNewsGroup Обробник створення нової групи новин.
+// AddNewsGroup godoc
+// @Summary      Створення групи новин
+// @Description  Створення групи новин
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups [post]
 func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -114,6 +151,19 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 }
 
 // UpdateNewsGroup Обробник оновлення групи новин.
+// UpdateNewsGroup godoc
+// @Summary      Оновлення групи новин
+// @Description  Оновлення групи новин
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "id групи новин"
+// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups/{id} [put]
 func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -164,6 +214,18 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 }
 
 // TrashNewsGroup Обробник м'яке видалення групи новин.
+// TrashNewsGroup godoc
+// @Summary      м'яке видалення групи новин
+// @Description  м'яке видалення групи новин
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "id групи новин"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups/{id}/trash [patch]
 func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -196,6 +258,18 @@ func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 }
 
 // RecoverNewsGroup Обробник відновлення групи новин після м'якого видалення.
+// RecoverNewsGroup godoc
+// @Summary      відновлення групи новин після м'якого видалення
+// @Description  відновлення групи новин після м'якого видалення
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "id групи новин"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups/{id}/recover [patch]
 func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -228,6 +302,18 @@ func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 }
 
 // DeleteNewsGroup Обробник остаточного видалення групи новин.
+// DeleteNewsGroup godoc
+// @Summary      остаточне видалення групи новин
+// @Description  остаточне видалення групи новин
+// @Tags         groups
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "id групи новин"
+// @Success      200  {object}  response.Response
+// @Failure      400  {object}  response.Response
+// @Failure      404  {object}  response.Response
+// @Failure      500  {object}  response.Response
+// @Router       /groups/{id} [delete]
 func (controller *NewsGroupController) DeleteNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()

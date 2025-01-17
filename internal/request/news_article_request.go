@@ -10,8 +10,8 @@ type NewsArticleRequest struct {
 	Published        bool   `json:"published" validate:"omitempty,boolean"`
 	Title            string `json:"title" validate:"required,max=255"`
 	Content          string `json:"content" validate:"required,max=64000"`
-	ShortDescription string `json:"short_description" validate:"max=1000"`
-	PublishedAt      string `json:"published_at" form:"published_at" validate:"datetime=2006-01-02T15:04:05Z"`
+	ShortDescription string `json:"short_description" validate:"omitempty,max=1000"`
+	PublishedAt      string `json:"published_at" form:"published_at" validate:"omitempty,datetime=2006-01-02T15:04:05Z"`
 	GroupId          int    `json:"group_id" form:"group_id" validate:"number"`
 }
 

@@ -1,0 +1,638 @@
+basePath: /api/v1
+definitions:
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      error:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: 127.0.0.1:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API for news.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: News API
+  version: "1.0"
+paths:
+  /files:
+    get:
+      consumes:
+      - application/json
+      description: список файлів
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: список файлів
+      tags:
+      - files
+    post:
+      consumes:
+      - application/json
+      description: Створення файла
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Створення файла
+      tags:
+      - files
+  /files/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: видалення файла
+      parameters:
+      - description: id файла
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: видалення файла
+      tags:
+      - files
+    get:
+      consumes:
+      - application/json
+      description: Інформація про файл
+      parameters:
+      - description: id файла
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Інформація про файл
+      tags:
+      - files
+  /groups:
+    get:
+      consumes:
+      - application/json
+      description: список груп новин
+      parameters:
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: список груп новин
+      tags:
+      - groups
+    post:
+      consumes:
+      - application/json
+      description: Створення групи новин
+      parameters:
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Створення групи новин
+      tags:
+      - groups
+  /groups/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: остаточне видалення групи новин
+      parameters:
+      - description: id групи новин
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: остаточне видалення групи новин
+      tags:
+      - groups
+    get:
+      consumes:
+      - application/json
+      description: Інформація про групу новин
+      parameters:
+      - description: id групи новин
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Інформація про групу новин
+      tags:
+      - groups
+    put:
+      consumes:
+      - application/json
+      description: Оновлення групи новин
+      parameters:
+      - description: id групи новин
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Оновлення групи новин
+      tags:
+      - groups
+  /groups/{id}/recover:
+    patch:
+      consumes:
+      - application/json
+      description: відновлення групи новин після м'якого видалення
+      parameters:
+      - description: id групи новин
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: відновлення групи новин після м'якого видалення
+      tags:
+      - groups
+  /groups/{id}/trash:
+    patch:
+      consumes:
+      - application/json
+      description: м'яке видалення групи новин
+      parameters:
+      - description: id групи новин
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: м'яке видалення групи новин
+      tags:
+      - groups
+  /news:
+    get:
+      consumes:
+      - application/json
+      description: Отримати список новин
+      parameters:
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Список новин
+      tags:
+      - news
+    post:
+      consumes:
+      - application/json
+      description: Створення новини
+      parameters:
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Створення новини
+      tags:
+      - news
+  /news/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: остаточне видалення новини
+      parameters:
+      - description: id новини
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: остаточне видалення новини
+      tags:
+      - news
+    get:
+      consumes:
+      - application/json
+      description: Інформація про новину
+      parameters:
+      - description: id новини
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Інформація про новину
+      tags:
+      - news
+    put:
+      consumes:
+      - application/json
+      description: Оновлення новини
+      parameters:
+      - description: id новини
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: string enums
+        enum:
+        - en
+        - uk
+        in: query
+        name: loc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Оновлення новини
+      tags:
+      - news
+  /news/{id}/recover:
+    patch:
+      consumes:
+      - application/json
+      description: відновлення новини після м'якого видалення
+      parameters:
+      - description: id новини
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: відновлення новини після м'якого видалення
+      tags:
+      - news
+  /news/{id}/trash:
+    patch:
+      consumes:
+      - application/json
+      description: м'яке видалення новини
+      parameters:
+      - description: id новини
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: м'яке видалення новини
+      tags:
+      - news
+swagger: "2.0"

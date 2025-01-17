@@ -8,7 +8,10 @@ import (
 	"news/internal/logger"
 	"news/internal/services"
 
+	_ "news/docs"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 	"github.com/subosito/gotenv"
 )
 
@@ -18,6 +21,23 @@ func init() {
 	gotenv.Load()
 }
 
+// @title           News API
+// @version         1.0
+// @description     API for news.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      127.0.0.1:8000
+// @BasePath  /api/v1
+
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
 	env := config.NewEnv()
 	app := fiber.New()
@@ -59,6 +79,8 @@ func main() {
 
 	// статичні файли
 	app.Static("/uploads", env.UploadPath)
+	// документація
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	logger.Log().Fatal(app.Listen(":" + env.WebPort))
 }
