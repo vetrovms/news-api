@@ -8,7 +8,6 @@ import (
 	myerrors "news/internal/errors"
 	"news/internal/logger"
 	"news/internal/models"
-	mmodels "news/internal/models"
 	"os"
 )
 
@@ -26,13 +25,13 @@ func NewFileUploadService(repo *repository.Repo) FileUploadService {
 
 // List Список файлів.
 func (s *FileUploadService) List(ctx context.Context) (*[]*models.FileUploadDto, error) {
-	models, err := s.repo.FileUploadList(ctx)
+	files, err := s.repo.FileUploadList(ctx)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	dto := []*mmodels.FileUploadDto{}
-	for _, m := range models {
+	dto := []*models.FileUploadDto{}
+	for _, m := range files {
 		dto = append(dto, m.DTO())
 	}
 	return &dto, nil

@@ -7,7 +7,6 @@ import (
 	myerrors "news/internal/errors"
 	"news/internal/logger"
 	"news/internal/models"
-	mmodels "news/internal/models"
 )
 
 // NewsArticleService Сервіс новин.
@@ -24,13 +23,13 @@ func NewNewsArticleService(repo *repository.Repo) NewsArticleService {
 
 // List Повертає список новин.
 func (s *NewsArticleService) List(ctx context.Context, params map[string]string, loc string) (*[]*models.NewsArticleDTO, error) {
-	models, err := s.repo.NewsArticleList(ctx, params, loc)
+	articles, err := s.repo.NewsArticleList(ctx, params, loc)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	dto := []*mmodels.NewsArticleDTO{} // models.NewsArticleDTO is not a type???
-	for _, m := range models {
+	dto := []*models.NewsArticleDTO{}
+	for _, m := range articles {
 		dto = append(dto, m.DTO())
 	}
 	return &dto, nil
