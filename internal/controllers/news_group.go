@@ -16,11 +16,11 @@ import (
 )
 
 type NewsGroupController struct {
-	service *services.NewsGroupService
+	service services.IGroupsService
 }
 
 // NewNewsGroupController Конструктор контролера груп новин.
-func NewNewsGroupController(s *services.NewsGroupService) NewsGroupController {
+func NewNewsGroupController(s services.IGroupsService) NewsGroupController {
 	return NewsGroupController{
 		service: s,
 	}
@@ -28,6 +28,7 @@ func NewNewsGroupController(s *services.NewsGroupService) NewsGroupController {
 
 // GetNewsGroups Обробник список груп новин.
 // GetNewsGroups godoc
+//
 //	@Summary		список груп новин
 //	@Description	список груп новин
 //	@Tags			groups
@@ -59,6 +60,7 @@ func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 
 // GetNewsGroup Обробник інформація про групу новин.
 // GetNewsGroup godoc
+//
 //	@Summary		Інформація про групу новин
 //	@Description	Інформація про групу новин
 //	@Tags			groups
@@ -107,6 +109,7 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 
 // AddNewsGroup Обробник створення нової групи новин.
 // AddNewsGroup godoc
+//
 //	@Summary		Створення групи новин
 //	@Description	Створення групи новин
 //	@Tags			groups
@@ -152,6 +155,7 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 
 // UpdateNewsGroup Обробник оновлення групи новин.
 // UpdateNewsGroup godoc
+//
 //	@Summary		Оновлення групи новин
 //	@Description	Оновлення групи новин
 //	@Tags			groups
@@ -215,6 +219,7 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 
 // TrashNewsGroup Обробник м'яке видалення групи новин.
 // TrashNewsGroup godoc
+//
 //	@Summary		м'яке видалення групи новин
 //	@Description	м'яке видалення групи новин
 //	@Tags			groups
@@ -259,6 +264,7 @@ func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 
 // RecoverNewsGroup Обробник відновлення групи новин після м'якого видалення.
 // RecoverNewsGroup godoc
+//
 //	@Summary		відновлення групи новин після м'якого видалення
 //	@Description	відновлення групи новин після м'якого видалення
 //	@Tags			groups
@@ -303,6 +309,7 @@ func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 
 // DeleteNewsGroup Обробник остаточного видалення групи новин.
 // DeleteNewsGroup godoc
+//
 //	@Summary		остаточне видалення групи новин
 //	@Description	остаточне видалення групи новин
 //	@Tags			groups

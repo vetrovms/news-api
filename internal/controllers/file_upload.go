@@ -19,11 +19,11 @@ import (
 )
 
 type FileUploadController struct {
-	service *services.FileUploadService
+	service services.IFilesService
 }
 
 // NewFileUploadController Конструктор контролера новин.
-func NewFileUploadController(s *services.FileUploadService) FileUploadController {
+func NewFileUploadController(s services.IFilesService) FileUploadController {
 	return FileUploadController{
 		service: s,
 	}
@@ -31,6 +31,7 @@ func NewFileUploadController(s *services.FileUploadService) FileUploadController
 
 // GetFileUploads Обробник список файлів.
 // GetFileUploads godoc
+//
 //	@Summary		список файлів
 //	@Description	список файлів
 //	@Tags			files
@@ -55,6 +56,7 @@ func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 
 // GetFileUpload Обробник інформація про файл.
 // GetFileUpload godoc
+//
 //	@Summary		Інформація про файл
 //	@Description	Інформація про файл
 //	@Tags			files
@@ -97,6 +99,7 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 
 // AddFileUpload Обробник створення файла.
 // AddFileUpload godoc
+//
 //	@Summary		Створення файла
 //	@Description	Створення файла
 //	@Tags			files
@@ -159,6 +162,7 @@ func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 
 // DeleteFileUpload Обробник видалення файла.
 // DeleteFileUpload godoc
+//
 //	@Summary		видалення файла
 //	@Description	видалення файла
 //	@Tags			files

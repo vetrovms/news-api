@@ -36,8 +36,8 @@ func init() {
 //	@host		127.0.0.1:8000
 //	@BasePath	/api/v1
 
-//	@externalDocs.description	OpenAPI
-//	@externalDocs.url			https://swagger.io/resources/open-api/
+// @externalDocs.description	OpenAPI
+// @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	env := config.NewEnv()
 	app := fiber.New()
