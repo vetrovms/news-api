@@ -11,11 +11,11 @@ import (
 
 // NewsArticleService Сервіс новин.
 type NewsArticleService struct {
-	repo *repository.Repo
+	repo repository.IRepo
 }
 
 // NewNewsArticleService Конструктор сервіса новин.
-func NewNewsArticleService(repo *repository.Repo) NewsArticleService {
+func NewNewsArticleService(repo repository.IRepo) NewsArticleService {
 	return NewsArticleService{
 		repo: repo,
 	}

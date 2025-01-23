@@ -13,11 +13,11 @@ import (
 
 // FileUploadService Сервіс файлів.
 type FileUploadService struct {
-	repo *repository.Repo
+	repo repository.IRepo
 }
 
 // NewFileUploadService Конструктор сервіса файлів.
-func NewFileUploadService(repo *repository.Repo) FileUploadService {
+func NewFileUploadService(repo repository.IRepo) FileUploadService {
 	return FileUploadService{
 		repo: repo,
 	}
@@ -30,7 +30,6 @@ func (s *FileUploadService) List(ctx context.Context) (*[]models.FileUploadDto, 
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	// dto := []*models.FileUploadDto{}
 	dto := make([]models.FileUploadDto, len(files))
 	for i, m := range files {
 		dto[i] = m.DTO()
