@@ -33,7 +33,7 @@ func NewNewsGroupController(s *services.NewsGroupService) NewsGroupController {
 // @Tags         groups
 // @Accept       json
 // @Produce      json
-// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Param        locale   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
 // @Success      200  {object}  response.Response
 // @Failure      400  {object}  response.Response
 // @Failure      404  {object}  response.Response
@@ -43,12 +43,12 @@ func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	loc := c.Query("loc")
-	if !request.LocInWhiteList(loc) {
-		loc = request.DefaultLoc
+	locale := c.Query("locale")
+	if !request.LocInWhiteList(locale) {
+		locale = request.DefaultLoc
 	}
 
-	groups, err := controller.service.List(ctx, c.Queries(), loc)
+	groups, err := controller.service.List(ctx, c.Queries(), locale)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusServiceUnavailable, err.Error(), nil)
 		return c.Status(fiber.StatusServiceUnavailable).JSON(r)
@@ -65,7 +65,7 @@ func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 // @Accept       json
 // @Produce      json
 // @Param        id   path      int  true  "id групи новин"
-// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Param        locale   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
 // @Success      200  {object}  response.Response
 // @Failure      400  {object}  response.Response
 // @Failure      404  {object}  response.Response
@@ -75,9 +75,9 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	loc := c.Query("loc")
-	if !request.LocInWhiteList(loc) {
-		loc = request.DefaultLoc
+	locale := c.Query("locale")
+	if !request.LocInWhiteList(locale) {
+		locale = request.DefaultLoc
 	}
 
 	id, err := c.ParamsInt("id")
@@ -96,7 +96,7 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	group, err := controller.service.One(ctx, id, loc)
+	group, err := controller.service.One(ctx, id, locale)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusServiceUnavailable, err.Error(), nil)
 		return c.Status(fiber.StatusServiceUnavailable).JSON(r)
@@ -112,7 +112,7 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 // @Tags         groups
 // @Accept       json
 // @Produce      json
-// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Param        locale   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
 // @Success      200  {object}  response.Response
 // @Failure      400  {object}  response.Response
 // @Failure      404  {object}  response.Response
@@ -125,9 +125,9 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 	var newsGroupDTO models.NewsGroupDTO
 	var gRequest request.NewsGroupRequest
 
-	loc := c.Query("loc")
-	if !request.LocInWhiteList(loc) {
-		loc = request.DefaultLoc
+	locale := c.Query("locale")
+	if !request.LocInWhiteList(locale) {
+		locale = request.DefaultLoc
 	}
 
 	if err := c.BodyParser(&gRequest); err != nil {
@@ -141,7 +141,7 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 	}
 
 	gRequest.Fill(&newsGroupDTO)
-	dto, err := controller.service.Create(ctx, newsGroupDTO, loc)
+	dto, err := controller.service.Create(ctx, newsGroupDTO, locale)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
@@ -158,7 +158,7 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 // @Accept       json
 // @Produce      json
 // @Param        id   path      int  true  "id групи новин"
-// @Param        loc   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
+// @Param        locale   query      string    false    "string enums" Enums(en, uk) "локаль; за замовчуванням en"
 // @Success      200  {object}  response.Response
 // @Failure      400  {object}  response.Response
 // @Failure      404  {object}  response.Response
@@ -168,9 +168,9 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	loc := c.Query("loc")
-	if !request.LocInWhiteList(loc) {
-		loc = request.DefaultLoc
+	locale := c.Query("locale")
+	if !request.LocInWhiteList(locale) {
+		locale = request.DefaultLoc
 	}
 
 	id, err := c.ParamsInt("id")
@@ -204,7 +204,7 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 
 	gRequest.Fill(&newsGroupDTO)
 	newsGroupDTO.ID = id
-	dto, err := controller.service.Update(ctx, newsGroupDTO, loc)
+	dto, err := controller.service.Update(ctx, newsGroupDTO, locale)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)

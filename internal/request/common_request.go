@@ -6,11 +6,11 @@ const (
 	DefaultLoc = LocEn
 )
 
-func LocInWhiteList(loc string) bool {
-	if loc == LocEn {
+func LocInWhiteList(locale string) bool {
+	if locale == LocEn {
 		return true
 	}
-	if loc == LocUk {
+	if locale == LocUk {
 		return true
 	}
 	return false

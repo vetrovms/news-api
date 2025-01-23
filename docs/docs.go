@@ -223,7 +223,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -274,7 +274,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -334,7 +334,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -392,7 +392,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -593,7 +593,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -644,7 +644,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -704,7 +704,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -762,7 +762,7 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],

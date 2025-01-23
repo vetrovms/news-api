@@ -154,7 +154,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -188,7 +188,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -260,7 +260,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -299,7 +299,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -400,7 +400,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -434,7 +434,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -506,7 +506,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json
@@ -545,7 +545,7 @@ paths:
         - en
         - uk
         in: query
-        name: loc
+        name: locale
         type: string
       produces:
       - application/json

@@ -8,16 +8,16 @@ type NewsGroupDTO struct {
 	Files     []*FileUploadDto `json:"files"`
 }
 
-func (dto *NewsGroupDTO) FillModel(g *NewsGroup, loc string) {
+func (dto *NewsGroupDTO) FillModel(g *NewsGroup, locale string) {
 	g.Alias = dto.Alias
 	g.Published = dto.Published
 	if g.DefaultTitle == "" {
 		g.DefaultTitle = dto.Title
 	}
 	if g.CurLang.Loc == "" {
-		g.CurLang.Loc = loc
+		g.CurLang.Loc = locale
 	}
-	if g.CurLang.Loc == loc {
+	if g.CurLang.Loc == locale {
 		g.CurLang.Title = dto.Title
 	}
 }

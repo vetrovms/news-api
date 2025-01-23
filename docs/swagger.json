@@ -217,7 +217,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -268,7 +268,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -328,7 +328,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -386,7 +386,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -587,7 +587,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -638,7 +638,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -698,7 +698,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],
@@ -756,7 +756,7 @@
                         ],
                         "type": "string",
                         "description": "string enums",
-                        "name": "loc",
+                        "name": "locale",
                         "in": "query"
                     }
                 ],

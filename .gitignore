@@ -1,3 +1,4 @@
 log/*
 uploads/*
 !.gitkeep
+.idea

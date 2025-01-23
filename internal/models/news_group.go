@@ -15,9 +15,9 @@ type NewsGroup struct {
 }
 
 func (g *NewsGroup) DTO() *NewsGroupDTO {
-	filesDTO := []*FileUploadDto{}
-	for _, f := range g.Files {
-		filesDTO = append(filesDTO, f.DTO())
+	filesDTO := make([]*FileUploadDto, len(g.Files))
+	for i, f := range g.Files {
+		filesDTO[i] = f.DTO()
 	}
 	return &NewsGroupDTO{
 		ID:        int(g.ID),

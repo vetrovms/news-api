@@ -13,7 +13,7 @@ type NewsArticleDTO struct {
 	Files            []*FileUploadDto `json:"files"`
 }
 
-func (dto *NewsArticleDTO) FillModel(model *NewsArticle, loc string) {
+func (dto *NewsArticleDTO) FillModel(model *NewsArticle, locale string) {
 	model.Alias = dto.Alias
 	model.Published = dto.Published
 	model.PublishedAt = dto.PublishedAt
@@ -22,9 +22,9 @@ func (dto *NewsArticleDTO) FillModel(model *NewsArticle, loc string) {
 		model.DefaultTitle = dto.Title
 	}
 	if model.CurLang.Loc == "" {
-		model.CurLang.Loc = loc
+		model.CurLang.Loc = locale
 	}
-	if model.CurLang.Loc == loc {
+	if model.CurLang.Loc == locale {
 		model.CurLang.Title = dto.Title
 		model.CurLang.Content = dto.Content
 		model.CurLang.ShortDescription = dto.ShortDescription
