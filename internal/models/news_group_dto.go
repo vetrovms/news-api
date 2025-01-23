@@ -1,11 +1,11 @@
 package models
 
 type NewsGroupDTO struct {
-	ID        int              `json:"id"`
-	Title     string           `json:"title"`
-	Alias     string           `json:"alias"`
-	Published bool             `json:"published"`
-	Files     []*FileUploadDto `json:"files"`
+	ID        int             `json:"id"`
+	Title     string          `json:"title"`
+	Alias     string          `json:"alias"`
+	Published bool            `json:"published"`
+	Files     []FileUploadDto `json:"files"`
 }
 
 func (dto *NewsGroupDTO) FillModel(g *NewsGroup, locale string) {

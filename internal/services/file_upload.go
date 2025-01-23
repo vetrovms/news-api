@@ -24,14 +24,14 @@ func NewFileUploadService(repo *repository.Repo) FileUploadService {
 }
 
 // List Список файлів.
-func (s *FileUploadService) List(ctx context.Context) (*[]*models.FileUploadDto, error) {
+func (s *FileUploadService) List(ctx context.Context) (*[]models.FileUploadDto, error) {
 	files, err := s.repo.FileUploadList(ctx)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
 	// dto := []*models.FileUploadDto{}
-	dto := make([]*models.FileUploadDto, len(files))
+	dto := make([]models.FileUploadDto, len(files))
 	for i, m := range files {
 		dto[i] = m.DTO()
 	}
@@ -55,7 +55,8 @@ func (s *FileUploadService) One(ctx context.Context, id int) (*models.FileUpload
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto := model.DTO()
+	return &dto, nil
 }
 
 // Create Зберігає файл.
@@ -67,7 +68,8 @@ func (s *FileUploadService) Create(ctx context.Context, dto models.FileUploadDto
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto = model.DTO()
+	return &dto, nil
 }
 
 // Delete Видалення файла.
@@ -87,5 +89,6 @@ func (s *FileUploadService) Delete(ctx context.Context, dto *models.FileUploadDt
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }

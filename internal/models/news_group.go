@@ -14,12 +14,12 @@ type NewsGroup struct {
 	Files        []FileUpload    `gorm:"polymorphicType:EntityType;polymorphicId:EntityId;polymorphicValue:news_groups"`
 }
 
-func (g *NewsGroup) DTO() *NewsGroupDTO {
-	filesDTO := make([]*FileUploadDto, len(g.Files))
+func (g *NewsGroup) DTO() NewsGroupDTO {
+	filesDTO := make([]FileUploadDto, len(g.Files))
 	for i, f := range g.Files {
 		filesDTO[i] = f.DTO()
 	}
-	return &NewsGroupDTO{
+	return NewsGroupDTO{
 		ID:        int(g.ID),
 		Title:     g.Title(),
 		Alias:     g.Alias,

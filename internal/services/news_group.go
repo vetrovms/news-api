@@ -22,13 +22,13 @@ func NewNewsGroupService(repo *repository.Repo) NewsGroupService {
 }
 
 // List Повертає список груп новин.
-func (s *NewsGroupService) List(ctx context.Context, params map[string]string, locale string) (*[]*models.NewsGroupDTO, error) {
+func (s *NewsGroupService) List(ctx context.Context, params map[string]string, locale string) (*[]models.NewsGroupDTO, error) {
 	groups, err := s.repo.NewsGroupList(ctx, params, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	groupsDto := make([]*models.NewsGroupDTO, len(groups))
+	groupsDto := make([]models.NewsGroupDTO, len(groups))
 	for i, g := range groups {
 		groupsDto[i] = g.DTO()
 	}
@@ -42,7 +42,8 @@ func (s *NewsGroupService) One(ctx context.Context, id int, locale string) (*mod
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return group.DTO(), nil
+	dto := group.DTO()
+	return &dto, nil
 }
 
 // Exists Перевіряє існування запису за ідентифікатором.
@@ -74,7 +75,8 @@ func (s *NewsGroupService) Create(ctx context.Context, dto models.NewsGroupDTO, 
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto = model.DTO()
+	return &dto, nil
 }
 
 // Update Оновлює групу новин.
@@ -90,7 +92,8 @@ func (s *NewsGroupService) Update(ctx context.Context, dto models.NewsGroupDTO, 
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto = model.DTO()
+	return &dto, nil
 }
 
 // Trash М'яке видалення групи новин.
@@ -105,7 +108,8 @@ func (s *NewsGroupService) Trash(ctx context.Context, dto *models.NewsGroupDTO, 
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }
 
 // Recover Відновлення групи новин після м'якого видалення.
@@ -120,7 +124,8 @@ func (s *NewsGroupService) Recover(ctx context.Context, dto *models.NewsGroupDTO
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }
 
 // Delete Остаточне видалення групи новин.
@@ -135,5 +140,6 @@ func (s *NewsGroupService) Delete(ctx context.Context, dto *models.NewsGroupDTO,
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }

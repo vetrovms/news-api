@@ -22,13 +22,13 @@ func NewNewsArticleService(repo *repository.Repo) NewsArticleService {
 }
 
 // List Повертає список новин.
-func (s *NewsArticleService) List(ctx context.Context, params map[string]string, locale string) (*[]*models.NewsArticleDTO, error) {
+func (s *NewsArticleService) List(ctx context.Context, params map[string]string, locale string) (*[]models.NewsArticleDTO, error) {
 	articles, err := s.repo.NewsArticleList(ctx, params, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	dto := make([]*models.NewsArticleDTO, len(articles))
+	dto := make([]models.NewsArticleDTO, len(articles))
 	for i, m := range articles {
 		dto[i] = m.DTO()
 	}
@@ -42,7 +42,8 @@ func (s *NewsArticleService) One(ctx context.Context, id int, locale string) (*m
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto := model.DTO()
+	return &dto, nil
 }
 
 // Exists Перевіряє існування запису за ідентифікатором.
@@ -74,7 +75,8 @@ func (s *NewsArticleService) Create(ctx context.Context, dto models.NewsArticleD
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto = model.DTO()
+	return &dto, nil
 }
 
 // Update Оновлює новину.
@@ -90,7 +92,8 @@ func (s *NewsArticleService) Update(ctx context.Context, dto models.NewsArticleD
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	dto = model.DTO()
+	return &dto, nil
 }
 
 // Trash М'яке видалення новини.
@@ -105,7 +108,8 @@ func (s *NewsArticleService) Trash(ctx context.Context, dto *models.NewsArticleD
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }
 
 // Recover Відновлення новини після м'якого видалення.
@@ -120,7 +124,8 @@ func (s *NewsArticleService) Recover(ctx context.Context, dto *models.NewsArticl
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }
 
 // Delete Остаточне видалення новини.
@@ -135,5 +140,6 @@ func (s *NewsArticleService) Delete(ctx context.Context, dto *models.NewsArticle
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	return model.DTO(), nil
+	r := model.DTO()
+	return &r, nil
 }

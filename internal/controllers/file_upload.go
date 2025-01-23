@@ -31,16 +31,16 @@ func NewFileUploadController(s *services.FileUploadService) FileUploadController
 
 // GetFileUploads Обробник список файлів.
 // GetFileUploads godoc
-// @Summary      список файлів
-// @Description  список файлів
-// @Tags         files
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  response.Response
-// @Failure      400  {object}  response.Response
-// @Failure      404  {object}  response.Response
-// @Failure      500  {object}  response.Response
-// @Router       /files [get]
+//	@Summary		список файлів
+//	@Description	список файлів
+//	@Tags			files
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Failure		404	{object}	response.Response
+//	@Failure		500	{object}	response.Response
+//	@Router			/files [get]
 func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -55,17 +55,17 @@ func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 
 // GetFileUpload Обробник інформація про файл.
 // GetFileUpload godoc
-// @Summary      Інформація про файл
-// @Description  Інформація про файл
-// @Tags         files
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "id файла"
-// @Success      200  {object}  response.Response
-// @Failure      400  {object}  response.Response
-// @Failure      404  {object}  response.Response
-// @Failure      500  {object}  response.Response
-// @Router       /files/{id} [get]
+//	@Summary		Інформація про файл
+//	@Description	Інформація про файл
+//	@Tags			files
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"id файла"
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Failure		404	{object}	response.Response
+//	@Failure		500	{object}	response.Response
+//	@Router			/files/{id} [get]
 func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -97,16 +97,16 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 
 // AddFileUpload Обробник створення файла.
 // AddFileUpload godoc
-// @Summary      Створення файла
-// @Description  Створення файла
-// @Tags         files
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  response.Response
-// @Failure      400  {object}  response.Response
-// @Failure      404  {object}  response.Response
-// @Failure      500  {object}  response.Response
-// @Router       /files [post]
+//	@Summary		Створення файла
+//	@Description	Створення файла
+//	@Tags			files
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Failure		404	{object}	response.Response
+//	@Failure		500	{object}	response.Response
+//	@Router			/files [post]
 func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -159,17 +159,17 @@ func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 
 // DeleteFileUpload Обробник видалення файла.
 // DeleteFileUpload godoc
-// @Summary      видалення файла
-// @Description  видалення файла
-// @Tags         files
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "id файла"
-// @Success      200  {object}  response.Response
-// @Failure      400  {object}  response.Response
-// @Failure      404  {object}  response.Response
-// @Failure      500  {object}  response.Response
-// @Router       /files/{id} [delete]
+//	@Summary		видалення файла
+//	@Description	видалення файла
+//	@Tags			files
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"id файла"
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Failure		404	{object}	response.Response
+//	@Failure		500	{object}	response.Response
+//	@Router			/files/{id} [delete]
 func (controller *FileUploadController) DeleteFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()

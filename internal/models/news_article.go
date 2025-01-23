@@ -17,12 +17,12 @@ type NewsArticle struct {
 	Files        []FileUpload      `gorm:"polymorphicType:EntityType;polymorphicId:EntityId;polymorphicValue:news_articles"`
 }
 
-func (a *NewsArticle) DTO() *NewsArticleDTO {
-	filesDTO := make([]*FileUploadDto, len(a.Files))
+func (a *NewsArticle) DTO() NewsArticleDTO {
+	filesDTO := make([]FileUploadDto, len(a.Files))
 	for i, f := range a.Files {
 		filesDTO[i] = f.DTO()
 	}
-	return &NewsArticleDTO{
+	return NewsArticleDTO{
 		ID:               int(a.ID),
 		Title:            a.Title(),
 		Content:          a.CurLang.Content,

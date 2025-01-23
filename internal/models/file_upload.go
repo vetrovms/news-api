@@ -12,8 +12,8 @@ type FileUpload struct {
 	Path       string `gorm:"column:path;type:string;size:255"`
 }
 
-func (f *FileUpload) DTO() *FileUploadDto {
-	return &FileUploadDto{
+func (f *FileUpload) DTO() FileUploadDto {
+	return FileUploadDto{
 		ID:         int(f.ID),
 		EntityType: f.EntityType,
 		EntityId:   f.EntityId,
