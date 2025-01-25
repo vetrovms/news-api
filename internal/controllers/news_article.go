@@ -15,6 +15,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// NewsArticleController Контролер новин.
 type NewsArticleController struct {
 	service services.INewsService
 }
@@ -115,15 +116,7 @@ func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//
-// Param        title   body       string    true     "Заголовок статті"
-// Param        alias   body       string    true     "Аліас статті"
-// Param        published   body   boolean   false    "Опубліковано"
-// Param        published_at   body   string   false  "Дата публікації datetime=2006-01-02T15:04:05Z"
-// Param        group_id    body     int       true     "Група новин"
-// Param        short_description   body   string   false    "Короткий опис"
-// Param        content    body      string    true     "Вміст статті"
-//
+//	@Param          request body request.NewsArticleRequest true "news article request"
 //	@Success		200		{object}	response.Response
 //	@Failure		400		{object}	response.Response
 //	@Failure		404		{object}	response.Response
@@ -172,15 +165,7 @@ func (controller *NewsArticleController) AddNewsArticle(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			id		path		int		true	"id новини"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//
-// Param        title   body       string    true     "Заголовок статті"
-// Param        alias   body       string    true     "Аліас статті"
-// Param        published   body   boolean   false    "Опубліковано"
-// Param        published_at   body   string   false  "Дата публікації datetime=2006-01-02T15:04:05Z"
-// Param        group_id   body       int       true     "Група новин"
-// Param        short_description   body string   false    "Короткий опис"
-// Param        content   body         string    true     "Вміст статті"
-//
+//	@Param          request body request.NewsArticleRequest true "news article request"
 //	@Success		200		{object}	response.Response
 //	@Failure		400		{object}	response.Response
 //	@Failure		404		{object}	response.Response

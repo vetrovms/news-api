@@ -6,6 +6,7 @@ import (
 	"news/internal/models"
 )
 
+// INewsService Інтерфейс сервіса новин.
 type INewsService interface {
 	List(ctx context.Context, params map[string]string, locale string) (*[]models.NewsArticleDTO, error)
 	One(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error)
@@ -18,6 +19,7 @@ type INewsService interface {
 	Delete(ctx context.Context, dto *models.NewsArticleDTO, locale string) (*models.NewsArticleDTO, error)
 }
 
+// IGroupsService інтерфейс сервіса груп новин.
 type IGroupsService interface {
 	List(ctx context.Context, params map[string]string, locale string) (*[]models.NewsGroupDTO, error)
 	One(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error)
@@ -30,6 +32,7 @@ type IGroupsService interface {
 	Delete(ctx context.Context, dto *models.NewsGroupDTO, locale string) (*models.NewsGroupDTO, error)
 }
 
+// IFilesService Інтерфейс сервіса завантаження файлів.
 type IFilesService interface {
 	List(ctx context.Context) (*[]models.FileUploadDto, error)
 	Exists(ctx context.Context, id int) (bool, error)

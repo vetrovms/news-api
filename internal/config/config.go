@@ -2,20 +2,32 @@ package config
 
 import "os"
 
+// Env Об'єкт конфігурації зі змінних оточення та інші налаштування.
 type Env struct {
-	LogPath      string
-	DbDsn        string
-	WebPort      string
-	UploadPath   string
-	UploadDir    string
-	JwtSecretKey string
+	LogPath      string // Шлях до файлу логування.
+	DbDsn        string // Доступ до бази даних.
+	WebPort      string // Порт веб застосунку.
+	UploadPath   string // Шлях до директорії завантаження файлів.
+	UploadDir    string // Директорія завантаження файлів.
+	JwtSecretKey string // Таємний ключ для генерації jwt токена.
 }
 
+// newsApiLogPath Назва змінної оточення що містить шлях до файлу логування.
 const newsApiLogPath = "NEWS_API_LOG_PATH"
+
+// newsApiDbDsn Назва змінної оточення що містить доступ до бази даних.
 const newsApiDbDsn = "NEWS_API_DB_DSN"
+
+// newsApiWebPort Назва змінної оточення що містить порт веб застосунку.
 const newsApiWebPort = "NEWS_API_WEB_PORT"
+
+// uploadPath Назва змінної оточення що містить шлях до директорії завантаження файлів.
 const uploadPath = "NEWS_API_UPLOAD_PATH"
+
+// uploadDir Директорія завантаження файлів.
 const uploadDir = "uploads"
+
+// jwtSecretKey Назва змінної оточення що містить таємний ключ для генерації jwt токена.
 const jwtSecretKey = "NEWS_API_JWT_SECRET_KEY"
 
 // NewEnv Повертає об'єкт конфігурації, заповнений зі змінних оточення.

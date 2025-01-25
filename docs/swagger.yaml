@@ -1,5 +1,65 @@
 basePath: /api/v1
 definitions:
+  request.FileUploadRequest:
+    properties:
+      entity_id:
+        example: 123
+        type: integer
+      entity_type:
+        enum:
+        - news_groups
+        - news_articles
+        example: news_article
+        type: string
+    type: object
+  request.NewsArticleRequest:
+    properties:
+      alias:
+        example: nova_stattya
+        maxLength: 255
+        type: string
+      content:
+        example: Сьогодні щось відбулось.
+        maxLength: 64000
+        type: string
+      group_id:
+        example: 3
+        type: integer
+      published:
+        type: boolean
+      published_at:
+        example: "2006-01-02T15:04:05Z"
+        type: string
+      short_description:
+        example: Короткий опис новини.
+        maxLength: 1000
+        type: string
+      title:
+        example: Нова новина
+        maxLength: 255
+        type: string
+    required:
+    - alias
+    - content
+    - title
+    type: object
+  request.NewsGroupRequest:
+    properties:
+      alias:
+        example: politics_ukraine
+        maxLength: 255
+        type: string
+      published:
+        example: true
+        type: boolean
+      title:
+        example: Політика, Україна
+        maxLength: 255
+        type: string
+    required:
+    - alias
+    - title
+    type: object
   response.Response:
     properties:
       code:
@@ -56,6 +116,13 @@ paths:
       consumes:
       - application/json
       description: Створення файла
+      parameters:
+      - description: file upload request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.FileUploadRequest'
       produces:
       - application/json
       responses:
@@ -190,6 +257,12 @@ paths:
         in: query
         name: locale
         type: string
+      - description: news group request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.NewsGroupRequest'
       produces:
       - application/json
       responses:
@@ -301,6 +374,12 @@ paths:
         in: query
         name: locale
         type: string
+      - description: news group request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.NewsGroupRequest'
       produces:
       - application/json
       responses:
@@ -436,6 +515,12 @@ paths:
         in: query
         name: locale
         type: string
+      - description: news article request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.NewsArticleRequest'
       produces:
       - application/json
       responses:
@@ -547,6 +632,12 @@ paths:
         in: query
         name: locale
         type: string
+      - description: news article request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.NewsArticleRequest'
       produces:
       - application/json
       responses:

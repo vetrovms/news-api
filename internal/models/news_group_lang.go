@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NewsGroupLand Модель перекладу групин новин.
 type NewsGroupLang struct {
 	gorm.Model
 	Rid   int    `gorm:"column:rid;type:int"`

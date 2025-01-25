@@ -76,6 +76,17 @@ const docTemplate = `{
                     "files"
                 ],
                 "summary": "Створення файла",
+                "parameters": [
+                    {
+                        "description": "file upload request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.FileUploadRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -276,6 +287,15 @@ const docTemplate = `{
                         "description": "string enums",
                         "name": "locale",
                         "in": "query"
+                    },
+                    {
+                        "description": "news group request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.NewsGroupRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -394,6 +414,15 @@ const docTemplate = `{
                         "description": "string enums",
                         "name": "locale",
                         "in": "query"
+                    },
+                    {
+                        "description": "news group request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.NewsGroupRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -646,6 +675,15 @@ const docTemplate = `{
                         "description": "string enums",
                         "name": "locale",
                         "in": "query"
+                    },
+                    {
+                        "description": "news article request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.NewsArticleRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -764,6 +802,15 @@ const docTemplate = `{
                         "description": "string enums",
                         "name": "locale",
                         "in": "query"
+                    },
+                    {
+                        "description": "news article request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.NewsArticleRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -944,6 +991,87 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.FileUploadRequest": {
+            "type": "object",
+            "properties": {
+                "entity_id": {
+                    "type": "integer",
+                    "example": 123
+                },
+                "entity_type": {
+                    "type": "string",
+                    "enum": [
+                        "news_groups",
+                        "news_articles"
+                    ],
+                    "example": "news_article"
+                }
+            }
+        },
+        "request.NewsArticleRequest": {
+            "type": "object",
+            "required": [
+                "alias",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "alias": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "nova_stattya"
+                },
+                "content": {
+                    "type": "string",
+                    "maxLength": 64000,
+                    "example": "Сьогодні щось відбулось."
+                },
+                "group_id": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "published": {
+                    "type": "boolean"
+                },
+                "published_at": {
+                    "type": "string",
+                    "example": "2006-01-02T15:04:05Z"
+                },
+                "short_description": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "example": "Короткий опис новини."
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "Нова новина"
+                }
+            }
+        },
+        "request.NewsGroupRequest": {
+            "type": "object",
+            "required": [
+                "alias",
+                "title"
+            ],
+            "properties": {
+                "alias": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "politics_ukraine"
+                },
+                "published": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "Політика, Україна"
+                }
+            }
+        },
         "response.Response": {
             "type": "object",
             "properties": {

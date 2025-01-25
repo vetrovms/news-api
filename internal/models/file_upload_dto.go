@@ -1,5 +1,6 @@
 package models
 
+// FileUploadDto DTO для моделі файла.
 type FileUploadDto struct {
 	ID         int    `json:"id"`
 	EntityType string `json:"entity_type"`
@@ -8,6 +9,7 @@ type FileUploadDto struct {
 	Path       string `json:"path"`
 }
 
+// FillModel Заповнює поля моделі.
 func (dto *FileUploadDto) FillModel(model *FileUpload) {
 	model.EntityType = dto.EntityType
 	model.EntityId = dto.EntityId

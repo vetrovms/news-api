@@ -18,6 +18,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// FileUploadController Контролер завантаження файлів.
 type FileUploadController struct {
 	service services.IFilesService
 }
@@ -105,6 +106,7 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 //	@Tags			files
 //	@Accept			json
 //	@Produce		json
+//	@Param          request body request.FileUploadRequest true "file upload request"
 //	@Success		200	{object}	response.Response
 //	@Failure		400	{object}	response.Response
 //	@Failure		404	{object}	response.Response

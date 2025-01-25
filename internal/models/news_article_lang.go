@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NewsArticleLang Модель перекладу статті.
 type NewsArticleLang struct {
 	gorm.Model
 	Rid              int    `gorm:"column:rid;type:int"`

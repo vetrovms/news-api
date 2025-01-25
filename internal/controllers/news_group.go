@@ -15,6 +15,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// NewsGroupController Контролер груп новин.
 type NewsGroupController struct {
 	service services.IGroupsService
 }
@@ -117,6 +118,7 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Success		200		{object}	response.Response
+//	@Param          request body request.NewsGroupRequest true "news group request"
 //	@Failure		400		{object}	response.Response
 //	@Failure		404		{object}	response.Response
 //	@Failure		500		{object}	response.Response
@@ -163,6 +165,7 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			id		path		int		true	"id групи новин"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
+//	@Param          request body request.NewsGroupRequest true "news group request"
 //	@Success		200		{object}	response.Response
 //	@Failure		400		{object}	response.Response
 //	@Failure		404		{object}	response.Response

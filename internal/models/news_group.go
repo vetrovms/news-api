@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NewsGroup Модель групи новин.
 type NewsGroup struct {
 	gorm.Model
 	Alias        string          `gorm:"column:alias;type:string;size:255"`
@@ -14,6 +15,7 @@ type NewsGroup struct {
 	Files        []FileUpload    `gorm:"polymorphicType:EntityType;polymorphicId:EntityId;polymorphicValue:news_groups"`
 }
 
+// DTO Повертає DTO групи новин.
 func (g *NewsGroup) DTO() NewsGroupDTO {
 	filesDTO := make([]FileUploadDto, len(g.Files))
 	for i, f := range g.Files {
@@ -28,6 +30,7 @@ func (g *NewsGroup) DTO() NewsGroupDTO {
 	}
 }
 
+// Title Повертає заголовок групи новин на поточній мові.
 func (g *NewsGroup) Title() string {
 	if g.CurLang.Title != "" {
 		return g.CurLang.Title

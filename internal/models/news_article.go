@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NewsArticle Модель статті.
 type NewsArticle struct {
 	gorm.Model
 	Alias        string            `gorm:"column:alias;type:string;size:255"`
@@ -17,6 +18,7 @@ type NewsArticle struct {
 	Files        []FileUpload      `gorm:"polymorphicType:EntityType;polymorphicId:EntityId;polymorphicValue:news_articles"`
 }
 
+// DTO Повертає DTO статті.
 func (a *NewsArticle) DTO() NewsArticleDTO {
 	filesDTO := make([]FileUploadDto, len(a.Files))
 	for i, f := range a.Files {
@@ -41,6 +43,7 @@ func (a *NewsArticle) DTO() NewsArticleDTO {
 	}
 }
 
+// Title Повертає заголовок статті на поточній мові.
 func (a *NewsArticle) Title() string {
 	if a.CurLang.Title != "" {
 		return a.CurLang.Title

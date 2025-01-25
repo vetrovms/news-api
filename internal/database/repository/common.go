@@ -19,6 +19,7 @@ func NewRepo(conn *gorm.DB) Repo {
 	}
 }
 
+// IRepo Інтерфейс репозиторія.
 type IRepo interface {
 	NewsArticleList(ctx context.Context, params map[string]string, locale string) ([]models.NewsArticle, error)
 	NewsArticleExists(ctx context.Context, id int) (bool, error)

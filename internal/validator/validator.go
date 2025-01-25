@@ -6,6 +6,7 @@ import (
 	gopgvalidator "github.com/go-playground/validator/v10"
 )
 
+// Validate Виконує валідацію структури.
 func Validate(s any) []string {
 	var res []string
 	validate := gopgvalidator.New()

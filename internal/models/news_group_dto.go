@@ -1,5 +1,6 @@
 package models
 
+// NewsGroupDTO DTO групи новин.
 type NewsGroupDTO struct {
 	ID        int             `json:"id"`
 	Title     string          `json:"title"`
@@ -8,6 +9,7 @@ type NewsGroupDTO struct {
 	Files     []FileUploadDto `json:"files"`
 }
 
+// FillModel Заповнює модель.
 func (dto *NewsGroupDTO) FillModel(g *NewsGroup, locale string) {
 	g.Alias = dto.Alias
 	g.Published = dto.Published

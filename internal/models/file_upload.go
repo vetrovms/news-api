@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// FileUpload Модель завантаженного файла.
 type FileUpload struct {
 	gorm.Model
 	EntityType string `gorm:"column:entity_type;type:string;size:255"`
@@ -12,6 +13,7 @@ type FileUpload struct {
 	Path       string `gorm:"column:path;type:string;size:255"`
 }
 
+// DTO Повертає DTO завантаженного файла.
 func (f *FileUpload) DTO() FileUploadDto {
 	return FileUploadDto{
 		ID:         int(f.ID),

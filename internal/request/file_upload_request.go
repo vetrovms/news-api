@@ -7,12 +7,14 @@ import (
 	"news/internal/validator"
 )
 
+// FileUploadRequest Тіло запита завантаження файла.
 type FileUploadRequest struct {
-	EntityType string `form:"entity_type" validate:"oneof=news_groups news_articles"`
-	EntityId   int    `form:"entity_id"`
-	File       *multipart.FileHeader
+	EntityType string                `json:"entity_type" form:"entity_type" validate:"oneof=news_groups news_articles" example:"news_article"`
+	EntityId   int                   `json:"entity_id" form:"entity_id" example:"123"`
+	File       *multipart.FileHeader `swaggerignore:"true"`
 }
 
+// Fill Заповнює DTO.
 func (r *FileUploadRequest) Fill(dto *models.FileUploadDto) {
 	dto.EntityId = r.EntityId
 	dto.EntityType = r.EntityType
@@ -20,6 +22,7 @@ func (r *FileUploadRequest) Fill(dto *models.FileUploadDto) {
 	dto.Path = "/" + config.NewEnv().UploadDir + "/" + dto.Name
 }
 
+// Validate Валідує запит.
 func (r *FileUploadRequest) Validate() []string {
 	return validator.Validate(r)
 }
