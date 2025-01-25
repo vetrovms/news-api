@@ -6,6 +6,7 @@ import (
 	"news/internal/database/connection"
 	"news/internal/database/repository"
 	"news/internal/logger"
+	"news/internal/middleware"
 	"news/internal/services"
 
 	_ "news/docs"
@@ -50,6 +51,13 @@ func main() {
 	fs := services.NewFileUploadService(&repo)
 	filesController := controllers.NewFileUploadController(&fs)
 
+	// статичні файли
+	app.Static("/uploads", env.UploadPath)
+	// документація
+	app.Get("/swagger/*", swagger.HandlerDefault)
+
+	app.Use(middleware.Protected()) // перевірка авторизації через jwt токен
+
 	// статті
 	articlesGroup := app.Group("/api/v1/news")
 	articlesGroup.Get("/", articlesController.GetNewsArticles)                       // список груп новин
@@ -76,11 +84,6 @@ func main() {
 	filesGroup.Get(idRoute(), filesController.GetFileUpload)
 	filesGroup.Post("/", filesController.AddFileUpload)
 	filesGroup.Delete(idRoute(), filesController.DeleteFileUpload)
-
-	// статичні файли
-	app.Static("/uploads", env.UploadPath)
-	// документація
-	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	logger.Log().Fatal(app.Listen(":" + env.WebPort))
 }
