@@ -1,5 +1,75 @@
 basePath: /api/v1
 definitions:
+  models.FileUploadDto:
+    properties:
+      entity_id:
+        example: 123
+        type: integer
+      entity_type:
+        example: news_articles
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: article_img_123.png
+        type: string
+      path:
+        example: /uploads/article_img_123.png
+        type: string
+    type: object
+  models.NewsArticleDTO:
+    properties:
+      alias:
+        example: new_article_uri
+        type: string
+      content:
+        example: Сталось щось добре
+        type: string
+      files:
+        items:
+          $ref: '#/definitions/models.FileUploadDto'
+        type: array
+      group:
+        $ref: '#/definitions/models.NewsGroupDTO'
+      group_id:
+        example: 222
+        type: integer
+      id:
+        example: 111
+        type: integer
+      published:
+        example: true
+        type: boolean
+      published_at:
+        example: 2024-12-05 12:48
+        type: string
+      short_description:
+        example: Короткий опис новини.
+        type: string
+      title:
+        example: Хороша новина
+        type: string
+    type: object
+  models.NewsGroupDTO:
+    properties:
+      alias:
+        example: sport
+        type: string
+      files:
+        items:
+          $ref: '#/definitions/models.FileUploadDto'
+        type: array
+      id:
+        example: 321
+        type: integer
+      published:
+        example: true
+        type: boolean
+      title:
+        example: Спорт
+        type: string
+    type: object
   request.FileUploadRequest:
     properties:
       entity_id:
@@ -60,13 +130,243 @@ definitions:
     - alias
     - title
     type: object
-  response.Response:
+  response.DocGetFileUpload200:
     properties:
       code:
+        example: 200
         type: integer
-      data: {}
-      error:
-        type: string
+      data:
+        $ref: '#/definitions/models.FileUploadDto'
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetFileUpload400:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetFileUpload404:
+    properties:
+      code:
+        example: 404
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetFileUpload500:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        example:
+        - щось пішло не так
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetFileUploads200:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/models.FileUploadDto'
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsArticleResponse200:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        $ref: '#/definitions/models.NewsArticleDTO'
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsArticleResponse400:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsArticleResponse404:
+    properties:
+      code:
+        example: 404
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsArticleResponse500:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        example:
+        - щось пішло не так
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsArticlesResponse200:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/models.NewsArticleDTO'
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsArticlesResponse500:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsGroupResponse200:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        $ref: '#/definitions/models.NewsGroupDTO'
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsGroupResponse400:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsGroupResponse404:
+    properties:
+      code:
+        example: 404
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsGroupResponse500:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        example:
+        - щось пішло не так
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsGroupsResponse200:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/models.NewsGroupDTO'
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  response.DocGetNewsGroupsResponse500:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data:
+        items:
+          type: string
+        type: array
+      errors:
+        items:
+          type: string
+        type: array
     type: object
 externalDocs:
   description: OpenAPI
@@ -96,19 +396,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUploads200'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload500'
       summary: список файлів
       tags:
       - files
@@ -129,19 +421,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload500'
       summary: Створення файла
       tags:
       - files
@@ -162,19 +454,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload500'
       summary: видалення файла
       tags:
       - files
@@ -194,19 +486,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetFileUpload500'
       summary: Інформація про файл
       tags:
       - files
@@ -229,19 +521,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupsResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupsResponse500'
       summary: список груп новин
       tags:
       - groups
@@ -269,19 +561,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse500'
       summary: Створення групи новин
       tags:
       - groups
@@ -302,19 +594,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse500'
       summary: остаточне видалення групи новин
       tags:
       - groups
@@ -341,19 +633,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse500'
       summary: Інформація про групу новин
       tags:
       - groups
@@ -386,19 +678,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse500'
       summary: Оновлення групи новин
       tags:
       - groups
@@ -419,19 +711,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse500'
       summary: відновлення групи новин після м'якого видалення
       tags:
       - groups
@@ -452,19 +744,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsGroupResponse500'
       summary: м'яке видалення групи новин
       tags:
       - groups
@@ -487,19 +779,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticlesResponse200'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticlesResponse500'
       summary: Список новин
       tags:
       - news
@@ -527,19 +811,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse500'
       summary: Створення новини
       tags:
       - news
@@ -560,19 +840,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse500'
       summary: остаточне видалення новини
       tags:
       - news
@@ -599,19 +879,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse500'
       summary: Інформація про новину
       tags:
       - news
@@ -644,19 +924,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse500'
       summary: Оновлення новини
       tags:
       - news
@@ -677,19 +957,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse500'
       summary: відновлення новини після м'якого видалення
       tags:
       - news
@@ -710,19 +990,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse200'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse400'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse404'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/response.DocGetNewsArticleResponse500'
       summary: м'яке видалення новини
       tags:
       - news

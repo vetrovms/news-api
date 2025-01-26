@@ -36,10 +36,10 @@ func NewNewsGroupController(s services.IGroupsService) NewsGroupController {
 //	@Accept			json
 //	@Produce		json
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsGroupsResponse200
+//	@Failure		400		{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404		{object}	response.DocGetNewsGroupResponse400
+//	@Failure		500		{object}	response.DocGetNewsGroupsResponse500
 //	@Router			/groups [get]
 func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -69,10 +69,10 @@ func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			id		path		int		true	"id групи новин"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsGroupResponse200
+//	@Failure		400		{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404		{object}	response.DocGetNewsGroupResponse404
+//	@Failure		500		{object}	response.DocGetNewsGroupResponse500
 //	@Router			/groups/{id} [get]
 func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -117,11 +117,11 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//	@Success		200		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsGroupResponse200
 //	@Param          request body request.NewsGroupRequest true "news group request"
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Failure		400		{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404		{object}	response.DocGetNewsGroupResponse404
+//	@Failure		500		{object}	response.DocGetNewsGroupResponse500
 //	@Router			/groups [post]
 func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -166,10 +166,10 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 //	@Param			id		path		int		true	"id групи новин"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Param          request body request.NewsGroupRequest true "news group request"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsGroupResponse200
+//	@Failure		400		{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404		{object}	response.DocGetNewsGroupResponse404
+//	@Failure		500		{object}	response.DocGetNewsGroupResponse500
 //	@Router			/groups/{id} [put]
 func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -229,10 +229,10 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id групи новин"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetNewsGroupResponse200
+//	@Failure		400	{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404	{object}	response.DocGetNewsGroupResponse404
+//	@Failure		500	{object}	response.DocGetNewsGroupResponse500
 //	@Router			/groups/{id}/trash [patch]
 func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -274,10 +274,10 @@ func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id групи новин"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetNewsGroupResponse200
+//	@Failure		400	{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404	{object}	response.DocGetNewsGroupResponse404
+//	@Failure		500	{object}	response.DocGetNewsGroupResponse500
 //	@Router			/groups/{id}/recover [patch]
 func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -319,10 +319,10 @@ func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id групи новин"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetNewsGroupResponse200
+//	@Failure		400	{object}	response.DocGetNewsGroupResponse400
+//	@Failure		404	{object}	response.DocGetNewsGroupResponse404
+//	@Failure		500	{object}	response.DocGetNewsGroupResponse500
 //	@Router			/groups/{id} [delete]
 func (controller *NewsGroupController) DeleteNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)

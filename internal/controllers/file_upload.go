@@ -38,10 +38,8 @@ func NewFileUploadController(s services.IFilesService) FileUploadController {
 //	@Tags			files
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetFileUploads200
+//	@Failure		500	{object}	response.DocGetFileUpload500
 //	@Router			/files [get]
 func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -49,8 +47,8 @@ func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 
 	files, err := controller.service.List(ctx)
 	if err != nil {
-		r := response.NewResponse(fiber.StatusServiceUnavailable, err.Error(), nil)
-		return c.Status(fiber.StatusServiceUnavailable).JSON(r)
+		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
 	return c.JSON(response.NewResponse(fiber.StatusOK, "", files))
 }
@@ -64,10 +62,10 @@ func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id файла"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetFileUpload200
+//	@Failure		400	{object}	response.DocGetFileUpload400
+//	@Failure		404	{object}	response.DocGetFileUpload404
+//	@Failure		500	{object}	response.DocGetFileUpload500
 //	@Router			/files/{id} [get]
 func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -91,8 +89,8 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 
 	fileUpload, err := controller.service.One(ctx, id)
 	if err != nil {
-		r := response.NewResponse(fiber.StatusServiceUnavailable, err.Error(), nil)
-		return c.Status(fiber.StatusServiceUnavailable).JSON(r)
+		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
 
 	return c.JSON(response.NewResponse(fiber.StatusOK, "", fileUpload))
@@ -107,10 +105,10 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param          request body request.FileUploadRequest true "file upload request"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetFileUpload200
+//	@Failure		400	{object}	response.DocGetFileUpload400
+//	@Failure		404	{object}	response.DocGetFileUpload404
+//	@Failure		500	{object}	response.DocGetFileUpload500
 //	@Router			/files [post]
 func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -171,10 +169,10 @@ func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id файла"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetFileUpload200
+//	@Failure		400	{object}	response.DocGetFileUpload400
+//	@Failure		404	{object}	response.DocGetFileUpload404
+//	@Failure		500	{object}	response.DocGetFileUpload500
 //	@Router			/files/{id} [delete]
 func (controller *FileUploadController) DeleteFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)

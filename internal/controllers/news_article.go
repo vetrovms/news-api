@@ -36,10 +36,8 @@ func NewNewsArticleController(s services.INewsService) NewsArticleController {
 //	@Accept			json
 //	@Produce		json
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsArticlesResponse200
+//	@Failure		500		{object}	response.DocGetNewsArticlesResponse500
 //	@Router			/news [get]
 func (controller *NewsArticleController) GetNewsArticles(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -52,8 +50,8 @@ func (controller *NewsArticleController) GetNewsArticles(c *fiber.Ctx) error {
 
 	articles, err := controller.service.List(ctx, c.Queries(), locale)
 	if err != nil {
-		r := response.NewResponse(fiber.StatusServiceUnavailable, err.Error(), nil)
-		return c.Status(fiber.StatusServiceUnavailable).JSON(r)
+		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
 	return c.JSON(response.NewResponse(fiber.StatusOK, "", articles))
 }
@@ -68,10 +66,10 @@ func (controller *NewsArticleController) GetNewsArticles(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			id		path		int		true	"id новини"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsArticleResponse200
+//	@Failure		400		{object}	response.DocGetNewsArticleResponse400
+//	@Failure		404		{object}	response.DocGetNewsArticleResponse400
+//	@Failure		500		{object}	response.DocGetNewsArticleResponse500
 //	@Router			/news/{id} [get]
 func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -100,8 +98,8 @@ func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 
 	article, err := controller.service.One(ctx, id, locale)
 	if err != nil {
-		r := response.NewResponse(fiber.StatusServiceUnavailable, err.Error(), nil)
-		return c.Status(fiber.StatusServiceUnavailable).JSON(r)
+		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
 
 	return c.JSON(response.NewResponse(fiber.StatusOK, "", article))
@@ -117,10 +115,9 @@ func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Param          request body request.NewsArticleRequest true "news article request"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsArticleResponse200
+//	@Failure		400		{object}	response.DocGetNewsArticleResponse400
+//	@Failure		500		{object}	response.DocGetNewsArticleResponse500
 //	@Router			/news [post]
 func (controller *NewsArticleController) AddNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -166,10 +163,10 @@ func (controller *NewsArticleController) AddNewsArticle(c *fiber.Ctx) error {
 //	@Param			id		path		int		true	"id новини"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Param          request body request.NewsArticleRequest true "news article request"
-//	@Success		200		{object}	response.Response
-//	@Failure		400		{object}	response.Response
-//	@Failure		404		{object}	response.Response
-//	@Failure		500		{object}	response.Response
+//	@Success		200		{object}	response.DocGetNewsArticleResponse200
+//	@Failure		400		{object}	response.DocGetNewsArticleResponse400
+//	@Failure		404		{object}	response.DocGetNewsArticleResponse404
+//	@Failure		500		{object}	response.DocGetNewsArticleResponse500
 //	@Router			/news/{id} [put]
 func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -229,10 +226,10 @@ func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id новини"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetNewsArticleResponse200
+//	@Failure		400	{object}	response.DocGetNewsArticleResponse400
+//	@Failure		404	{object}	response.DocGetNewsArticleResponse404
+//	@Failure		500	{object}	response.DocGetNewsArticleResponse500
 //	@Router			/news/{id}/trash [patch]
 func (controller *NewsArticleController) TrashNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -274,10 +271,10 @@ func (controller *NewsArticleController) TrashNewsArticle(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id новини"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetNewsArticleResponse200
+//	@Failure		400	{object}	response.DocGetNewsArticleResponse400
+//	@Failure		404	{object}	response.DocGetNewsArticleResponse404
+//	@Failure		500	{object}	response.DocGetNewsArticleResponse500
 //	@Router			/news/{id}/recover [patch]
 func (controller *NewsArticleController) RecoverNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -300,7 +297,6 @@ func (controller *NewsArticleController) RecoverNewsArticle(c *fiber.Ctx) error 
 	}
 
 	var dto = &models.NewsArticleDTO{ID: id}
-	//	@todo	розділити методи репозиторія для пошуку запису з перекладами та без
 	dto, err = controller.service.Recover(ctx, dto, request.DefaultLoc)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
@@ -319,10 +315,10 @@ func (controller *NewsArticleController) RecoverNewsArticle(c *fiber.Ctx) error 
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		int	true	"id новини"
-//	@Success		200	{object}	response.Response
-//	@Failure		400	{object}	response.Response
-//	@Failure		404	{object}	response.Response
-//	@Failure		500	{object}	response.Response
+//	@Success		200	{object}	response.DocGetNewsArticleResponse200
+//	@Failure		400	{object}	response.DocGetNewsArticleResponse400
+//	@Failure		404	{object}	response.DocGetNewsArticleResponse404
+//	@Failure		500	{object}	response.DocGetNewsArticleResponse500
 //	@Router			/news/{id} [delete]
 func (controller *NewsArticleController) DeleteNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -345,7 +341,6 @@ func (controller *NewsArticleController) DeleteNewsArticle(c *fiber.Ctx) error {
 	}
 
 	var dto = &models.NewsArticleDTO{ID: id}
-	//	@todo	розділити методи репозиторія для пошуку запису з перекладами та без
 	dto, err = controller.service.Delete(ctx, dto, request.DefaultLoc)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)

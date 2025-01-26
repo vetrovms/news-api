@@ -2,14 +2,14 @@ package models
 
 // NewsArticleDTO DTO статті.
 type NewsArticleDTO struct {
-	ID               int             `json:"id"`
-	Alias            string          `json:"alias"`
-	Published        bool            `json:"published"`
-	Title            string          `json:"title"`
-	Content          string          `json:"content"`
-	ShortDescription string          `json:"short_description"`
-	PublishedAt      string          `json:"published_at"`
-	GroupId          int             `json:"group_id"`
+	ID               int             `json:"id" example:"111"`
+	Alias            string          `json:"alias" example:"new_article_uri"`
+	Published        bool            `json:"published" example:"true"`
+	Title            string          `json:"title" example:"Хороша новина"`
+	Content          string          `json:"content" example:"Сталось щось добре"`
+	ShortDescription string          `json:"short_description" example:"Короткий опис новини."`
+	PublishedAt      string          `json:"published_at" example:"2024-12-05 12:48"`
+	GroupId          int             `json:"group_id" example:"222"`
 	Group            NewsGroupDTO    `json:"group"`
 	Files            []FileUploadDto `json:"files"`
 }

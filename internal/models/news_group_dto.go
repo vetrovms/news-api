@@ -2,10 +2,10 @@ package models
 
 // NewsGroupDTO DTO групи новин.
 type NewsGroupDTO struct {
-	ID        int             `json:"id"`
-	Title     string          `json:"title"`
-	Alias     string          `json:"alias"`
-	Published bool            `json:"published"`
+	ID        int             `json:"id" example:"321"`
+	Title     string          `json:"title" example:"Спорт"`
+	Alias     string          `json:"alias" example:"sport"`
+	Published bool            `json:"published" example:"true"`
 	Files     []FileUploadDto `json:"files"`
 }
 
