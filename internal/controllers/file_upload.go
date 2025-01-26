@@ -2,16 +2,12 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
-	"news/internal/config"
 	myerrors "news/internal/errors"
 	"news/internal/logger"
-	"news/internal/models"
 	"news/internal/request"
 	"news/internal/response"
 	"news/internal/services"
-	"slices"
 	"strings"
 	"time"
 
@@ -82,6 +78,7 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
+
 	if !exists {
 		r := response.NewResponse(fiber.StatusNotFound, myerrors.ResourceNotFound, nil)
 		return c.Status(fiber.StatusNotFound).JSON(r)
@@ -114,25 +111,11 @@ func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	file, err := c.FormFile("file")
-	if err != nil {
-		logger.Log().Info(err)
-		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
-		return c.Status(fiber.StatusInternalServerError).JSON(r)
-	}
-
 	var fileRequest request.FileUploadRequest
 	if err := c.BodyParser(&fileRequest); err != nil {
 		logger.Log().Info(err)
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
-	}
-
-	allowedTypes := []string{"image/jpeg", "image/png"}
-	if !slices.Contains(allowedTypes, file.Header.Get("Content-Type")) {
-		logger.Log().Info(myerrors.WrongFileFormat)
-		r := response.NewResponse(fiber.StatusBadRequest, myerrors.WrongFileFormat, nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
 	}
 
 	if err := fileRequest.Validate(); err != nil {
@@ -141,20 +124,10 @@ func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(r)
 	}
 
-	destination := fmt.Sprintf(config.NewEnv().UploadPath+"%s", file.Filename)
-	if err := c.SaveFile(file, destination); err != nil {
-		logger.Log().Info(err)
-		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
-		return c.Status(fiber.StatusInternalServerError).JSON(r)
-	}
-
-	var fileUploadDto models.FileUploadDto
-	fileRequest.File = file
-	fileRequest.Fill(&fileUploadDto)
-	dto, err := controller.service.Create(ctx, fileUploadDto)
+	dto, err, code := controller.service.Create(ctx, c, fileRequest)
 	if err != nil {
-		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
-		return c.Status(fiber.StatusInternalServerError).JSON(r)
+		r := response.NewResponse(code, err.Error(), nil)
+		return c.Status(code).JSON(r)
 	}
 
 	return c.JSON(response.NewResponse(fiber.StatusOK, "", dto))
@@ -189,13 +162,13 @@ func (controller *FileUploadController) DeleteFileUpload(c *fiber.Ctx) error {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
+
 	if !exists {
 		r := response.NewResponse(fiber.StatusNotFound, myerrors.ResourceNotFound, nil)
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	var dto = &models.FileUploadDto{ID: id}
-	dto, err = controller.service.Delete(ctx, dto)
+	dto, err := controller.service.Delete(ctx, id)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(http.StatusInternalServerError).JSON(r)

@@ -3,12 +3,17 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"news/internal/config"
 	"news/internal/database/repository"
 	myerrors "news/internal/errors"
 	"news/internal/logger"
 	"news/internal/models"
+	"news/internal/request"
 	"os"
+	"slices"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 // FileUploadService Сервіс файлів.
@@ -59,21 +64,42 @@ func (s *FileUploadService) One(ctx context.Context, id int) (*models.FileUpload
 }
 
 // Create Зберігає файл.
-func (s *FileUploadService) Create(ctx context.Context, dto models.FileUploadDto) (*models.FileUploadDto, error) {
-	var model models.FileUpload
-	dto.FillModel(&model)
-	err := s.repo.FileUploadSave(ctx, &model)
+func (s *FileUploadService) Create(ctx context.Context, c *fiber.Ctx, req request.FileUploadRequest) (*models.FileUploadDto, error, int) {
+	file, err := c.FormFile("file")
 	if err != nil {
 		logger.Log().Warn(err)
-		return nil, errors.New(myerrors.ServiceNotAvailable)
+		return nil, err, fiber.StatusInternalServerError
+	}
+
+	allowedTypes := []string{"image/jpeg", "image/png"}
+	if !slices.Contains(allowedTypes, file.Header.Get("Content-Type")) {
+		logger.Log().Warn(myerrors.WrongFileFormat)
+		return nil, errors.New(myerrors.WrongFileFormat), fiber.StatusBadRequest
+	}
+
+	destination := fmt.Sprintf(config.NewEnv().UploadPath+"%s", file.Filename)
+	if err := c.SaveFile(file, destination); err != nil {
+		logger.Log().Warn(err)
+		return nil, err, fiber.StatusInternalServerError
+	}
+
+	var model models.FileUpload
+	var dto models.FileUploadDto
+	req.File = file
+	req.Fill(&dto)
+	dto.FillModel(&model)
+	err = s.repo.FileUploadSave(ctx, &model)
+	if err != nil {
+		logger.Log().Warn(err)
+		return nil, errors.New(myerrors.ServiceNotAvailable), fiber.StatusInternalServerError
 	}
 	dto = model.DTO()
-	return &dto, nil
+	return &dto, nil, fiber.StatusOK
 }
 
 // Delete Видалення файла.
-func (s *FileUploadService) Delete(ctx context.Context, dto *models.FileUploadDto) (*models.FileUploadDto, error) {
-	model, err := s.repo.FileUploadOne(ctx, dto.ID)
+func (s *FileUploadService) Delete(ctx context.Context, id int) (*models.FileUploadDto, error) {
+	model, err := s.repo.FileUploadOne(ctx, id)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)

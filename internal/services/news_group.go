@@ -7,6 +7,9 @@ import (
 	myerrors "news/internal/errors"
 	"news/internal/logger"
 	"news/internal/models"
+	"news/internal/request"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 // NewsGroupService Сервіс груп новин.
@@ -22,8 +25,8 @@ func NewNewsGroupService(repo repository.IRepo) NewsGroupService {
 }
 
 // List Повертає список груп новин.
-func (s *NewsGroupService) List(ctx context.Context, params map[string]string, locale string) (*[]models.NewsGroupDTO, error) {
-	groups, err := s.repo.NewsGroupList(ctx, params, locale)
+func (s *NewsGroupService) List(ctx context.Context, c *fiber.Ctx) (*[]models.NewsGroupDTO, error) {
+	groups, err := s.repo.NewsGroupList(ctx, c.Queries(), locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -36,8 +39,8 @@ func (s *NewsGroupService) List(ctx context.Context, params map[string]string, l
 }
 
 // One Повертає групу новин за ідентифікатором.
-func (s *NewsGroupService) One(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
-	group, err := s.repo.NewsGroupOne(ctx, id, locale)
+func (s *NewsGroupService) One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsGroupDTO, error) {
+	group, err := s.repo.NewsGroupOne(ctx, id, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -67,9 +70,12 @@ func (s *NewsGroupService) ExistsUnscoped(ctx context.Context, id int) (bool, er
 }
 
 // Create Створює нову групу новин.
-func (s *NewsGroupService) Create(ctx context.Context, dto models.NewsGroupDTO, locale string) (*models.NewsGroupDTO, error) {
+func (s *NewsGroupService) Create(ctx context.Context, c *fiber.Ctx, req request.NewsGroupRequest) (*models.NewsGroupDTO, error) {
 	var model models.NewsGroup
-	dto.FillModel(&model, locale)
+	var dto models.NewsGroupDTO
+	req.Fill(&dto)
+
+	dto.FillModel(&model, locale(c))
 	err := s.repo.NewsGroupSave(ctx, &model)
 	if err != nil {
 		logger.Log().Warn(err)
@@ -80,13 +86,16 @@ func (s *NewsGroupService) Create(ctx context.Context, dto models.NewsGroupDTO, 
 }
 
 // Update Оновлює групу новин.
-func (s *NewsGroupService) Update(ctx context.Context, dto models.NewsGroupDTO, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOne(ctx, dto.ID, locale)
+func (s *NewsGroupService) Update(ctx context.Context, c *fiber.Ctx, req request.NewsGroupRequest, id int) (*models.NewsGroupDTO, error) {
+	var dto models.NewsGroupDTO
+	req.Fill(&dto)
+	dto.ID = id
+	model, err := s.repo.NewsGroupOne(ctx, dto.ID, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
-	dto.FillModel(&model, locale)
+	dto.FillModel(&model, locale(c))
 	err = s.repo.NewsGroupSave(ctx, &model)
 	if err != nil {
 		logger.Log().Warn(err)
@@ -97,8 +106,8 @@ func (s *NewsGroupService) Update(ctx context.Context, dto models.NewsGroupDTO, 
 }
 
 // Trash М'яке видалення групи новин.
-func (s *NewsGroupService) Trash(ctx context.Context, dto *models.NewsGroupDTO, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOne(ctx, dto.ID, locale)
+func (s *NewsGroupService) Trash(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
+	model, err := s.repo.NewsGroupOne(ctx, id, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -113,8 +122,8 @@ func (s *NewsGroupService) Trash(ctx context.Context, dto *models.NewsGroupDTO, 
 }
 
 // Recover Відновлення групи новин після м'якого видалення.
-func (s *NewsGroupService) Recover(ctx context.Context, dto *models.NewsGroupDTO, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOneUnscoped(ctx, dto.ID, locale)
+func (s *NewsGroupService) Recover(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
+	model, err := s.repo.NewsGroupOneUnscoped(ctx, id, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -129,8 +138,8 @@ func (s *NewsGroupService) Recover(ctx context.Context, dto *models.NewsGroupDTO
 }
 
 // Delete Остаточне видалення групи новин.
-func (s *NewsGroupService) Delete(ctx context.Context, dto *models.NewsGroupDTO, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOneUnscoped(ctx, dto.ID, locale)
+func (s *NewsGroupService) Delete(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
+	model, err := s.repo.NewsGroupOneUnscoped(ctx, id, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)

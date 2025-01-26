@@ -5,7 +5,6 @@ import (
 	"net/http"
 	myerrors "news/internal/errors"
 	"news/internal/logger"
-	"news/internal/models"
 	"news/internal/request"
 	"news/internal/response"
 	"news/internal/services"
@@ -43,12 +42,7 @@ func (controller *NewsArticleController) GetNewsArticles(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	locale := c.Query("locale")
-	if !request.LocInWhiteList(locale) {
-		locale = request.DefaultLoc
-	}
-
-	articles, err := controller.service.List(ctx, c.Queries(), locale)
+	articles, err := controller.service.List(ctx, c)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
@@ -75,11 +69,6 @@ func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	locale := c.Query("locale")
-	if !request.LocInWhiteList(locale) {
-		locale = request.DefaultLoc
-	}
-
 	id, err := c.ParamsInt("id")
 	if err != nil {
 		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
@@ -96,7 +85,7 @@ func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	article, err := controller.service.One(ctx, id, locale)
+	article, err := controller.service.One(ctx, c, id)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
@@ -123,14 +112,7 @@ func (controller *NewsArticleController) AddNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	var newsArticleDTO models.NewsArticleDTO
 	var aRequest request.NewsArticleRequest
-
-	locale := c.Query("locale")
-	if !request.LocInWhiteList(locale) {
-		locale = request.DefaultLoc
-	}
-
 	if err := c.BodyParser(&aRequest); err != nil {
 		logger.Log().Info(err)
 		return err
@@ -142,8 +124,7 @@ func (controller *NewsArticleController) AddNewsArticle(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(r)
 	}
 
-	aRequest.Fill(&newsArticleDTO)
-	dto, err := controller.service.Create(ctx, newsArticleDTO, locale)
+	dto, err := controller.service.Create(ctx, c, aRequest)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
@@ -172,11 +153,6 @@ func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	locale := c.Query("locale")
-	if !request.LocInWhiteList(locale) {
-		locale = request.DefaultLoc
-	}
-
 	id, err := c.ParamsInt("id")
 	if err != nil {
 		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
@@ -193,7 +169,6 @@ func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	var newsArticleDTO models.NewsArticleDTO
 	var gRequest request.NewsArticleRequest
 
 	if err := c.BodyParser(&gRequest); err != nil {
@@ -206,9 +181,7 @@ func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(r)
 	}
 
-	gRequest.Fill(&newsArticleDTO)
-	newsArticleDTO.ID = id
-	dto, err := controller.service.Update(ctx, newsArticleDTO, locale)
+	dto, err := controller.service.Update(ctx, c, gRequest, id)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
@@ -251,9 +224,7 @@ func (controller *NewsArticleController) TrashNewsArticle(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	var dto = &models.NewsArticleDTO{ID: id}
-	//	@todo	розділити методи репозиторія для пошуку запису з перекладами та без
-	dto, err = controller.service.Trash(ctx, dto, request.DefaultLoc)
+	dto, err := controller.service.Trash(ctx, id, request.DefaultLoc)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(http.StatusInternalServerError).JSON(r)
@@ -296,8 +267,7 @@ func (controller *NewsArticleController) RecoverNewsArticle(c *fiber.Ctx) error 
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	var dto = &models.NewsArticleDTO{ID: id}
-	dto, err = controller.service.Recover(ctx, dto, request.DefaultLoc)
+	dto, err := controller.service.Recover(ctx, id, request.DefaultLoc)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(http.StatusInternalServerError).JSON(r)
@@ -340,8 +310,7 @@ func (controller *NewsArticleController) DeleteNewsArticle(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(r)
 	}
 
-	var dto = &models.NewsArticleDTO{ID: id}
-	dto, err = controller.service.Delete(ctx, dto, request.DefaultLoc)
+	dto, err := controller.service.Delete(ctx, id, request.DefaultLoc)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(http.StatusInternalServerError).JSON(r)
