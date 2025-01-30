@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"errors"
-	"news/internal/database/repository"
 	myerrors "news/internal/errors"
 	"news/internal/logger"
 	"news/internal/models"
@@ -14,11 +13,11 @@ import (
 
 // NewsGroupService Сервіс груп новин.
 type NewsGroupService struct {
-	repo repository.IRepo
+	repo groupsRepo
 }
 
 // NewNewsGroupService Конструктор сервіса груп новин.
-func NewNewsGroupService(repo repository.IRepo) NewsGroupService {
+func NewNewsGroupService(repo groupsRepo) NewsGroupService {
 	return NewsGroupService{
 		repo: repo,
 	}

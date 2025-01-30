@@ -4,42 +4,36 @@ import (
 	"context"
 
 	"news/internal/models"
-	"news/internal/request"
-
-	"github.com/gofiber/fiber/v2"
 )
 
-// INewsService Інтерфейс сервіса новин.
-type INewsService interface {
-	List(ctx context.Context, c *fiber.Ctx) (*[]models.NewsArticleDTO, error)
-	One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsArticleDTO, error)
-	Exists(ctx context.Context, id int) (bool, error)
-	ExistsUnscoped(ctx context.Context, id int) (bool, error)
-	Create(ctx context.Context, c *fiber.Ctx, req request.NewsArticleRequest) (*models.NewsArticleDTO, error)
-	Update(ctx context.Context, c *fiber.Ctx, req request.NewsArticleRequest, id int) (*models.NewsArticleDTO, error)
-	Trash(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error)
-	Recover(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error)
-	Delete(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error)
+type filesRepo interface {
+	FileUploadSave(ctx context.Context, model *models.FileUpload) error
+	FileUploadList(ctx context.Context) ([]models.FileUpload, error)
+	FileUploadExists(ctx context.Context, id int) (bool, error)
+	FileUploadOne(ctx context.Context, id int) (models.FileUpload, error)
+	FileUploadDelete(ctx context.Context, model *models.FileUpload) error
 }
 
-// IGroupsService інтерфейс сервіса груп новин.
-type IGroupsService interface {
-	List(ctx context.Context, c *fiber.Ctx) (*[]models.NewsGroupDTO, error)
-	One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsGroupDTO, error)
-	Exists(ctx context.Context, id int) (bool, error)
-	ExistsUnscoped(ctx context.Context, id int) (bool, error)
-	Create(ctx context.Context, c *fiber.Ctx, req request.NewsGroupRequest) (*models.NewsGroupDTO, error)
-	Update(ctx context.Context, c *fiber.Ctx, req request.NewsGroupRequest, id int) (*models.NewsGroupDTO, error)
-	Trash(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error)
-	Recover(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error)
-	Delete(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error)
+type newsRepo interface {
+	NewsArticleList(ctx context.Context, params map[string]string, locale string) ([]models.NewsArticle, error)
+	NewsArticleExists(ctx context.Context, id int) (bool, error)
+	NewsArticleExistsUnscoped(ctx context.Context, id int) (bool, error)
+	NewsArticleOne(ctx context.Context, id int, locale string) (models.NewsArticle, error)
+	NewsArticleOneUnscoped(ctx context.Context, id int, locale string) (models.NewsArticle, error)
+	NewsArticleSave(ctx context.Context, model *models.NewsArticle) error
+	NewsArticleTrash(ctx context.Context, model *models.NewsArticle) error
+	NewsArticleRecover(ctx context.Context, model *models.NewsArticle) error
+	NewsArticleDelete(ctx context.Context, model *models.NewsArticle) error
 }
 
-// IFilesService Інтерфейс сервіса завантаження файлів.
-type IFilesService interface {
-	List(ctx context.Context) (*[]models.FileUploadDto, error)
-	Exists(ctx context.Context, id int) (bool, error)
-	One(ctx context.Context, id int) (*models.FileUploadDto, error)
-	Create(ctx context.Context, c *fiber.Ctx, req request.FileUploadRequest) (*models.FileUploadDto, error, int)
-	Delete(ctx context.Context, id int) (*models.FileUploadDto, error)
+type groupsRepo interface {
+	NewsGroupList(ctx context.Context, params map[string]string, locale string) ([]models.NewsGroup, error)
+	NewsGroupExists(ctx context.Context, id int) (bool, error)
+	NewsGroupExistsUnscoped(ctx context.Context, id int) (bool, error)
+	NewsGroupOne(ctx context.Context, id int, locale string) (models.NewsGroup, error)
+	NewsGroupOneUnscoped(ctx context.Context, id int, locale string) (models.NewsGroup, error)
+	NewsGroupSave(ctx context.Context, g *models.NewsGroup) error
+	NewsGroupTrash(ctx context.Context, g *models.NewsGroup) error
+	NewsGroupRecover(ctx context.Context, g *models.NewsGroup) error
+	NewsGroupDelete(ctx context.Context, g *models.NewsGroup) error
 }

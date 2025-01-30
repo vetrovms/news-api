@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"news/internal/config"
-	"news/internal/database/repository"
 	myerrors "news/internal/errors"
 	"news/internal/logger"
 	"news/internal/models"
@@ -18,11 +17,11 @@ import (
 
 // FileUploadService Сервіс файлів.
 type FileUploadService struct {
-	repo repository.IRepo
+	repo filesRepo
 }
 
 // NewFileUploadService Конструктор сервіса файлів.
-func NewFileUploadService(repo repository.IRepo) FileUploadService {
+func NewFileUploadService(repo filesRepo) FileUploadService {
 	return FileUploadService{
 		repo: repo,
 	}

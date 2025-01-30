@@ -7,7 +7,6 @@ import (
 	"news/internal/logger"
 	"news/internal/request"
 	"news/internal/response"
-	"news/internal/services"
 	"strings"
 	"time"
 
@@ -16,11 +15,11 @@ import (
 
 // NewsArticleController Контролер новин.
 type NewsArticleController struct {
-	service services.INewsService
+	service newsService
 }
 
 // NewNewsArticleController Конструктор контролера новин.
-func NewNewsArticleController(s services.INewsService) NewsArticleController {
+func NewNewsArticleController(s newsService) NewsArticleController {
 	return NewsArticleController{
 		service: s,
 	}

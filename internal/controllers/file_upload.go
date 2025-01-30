@@ -7,7 +7,6 @@ import (
 	"news/internal/logger"
 	"news/internal/request"
 	"news/internal/response"
-	"news/internal/services"
 	"strings"
 	"time"
 
@@ -16,11 +15,11 @@ import (
 
 // FileUploadController Контролер завантаження файлів.
 type FileUploadController struct {
-	service services.IFilesService
+	service filesService
 }
 
 // NewFileUploadController Конструктор контролера новин.
-func NewFileUploadController(s services.IFilesService) FileUploadController {
+func NewFileUploadController(s filesService) FileUploadController {
 	return FileUploadController{
 		service: s,
 	}
