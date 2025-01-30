@@ -6,4 +6,5 @@ const (
 	WrongFileFormat     = "wrong file format, allowed: jpeg, png"
 	WrongJWT            = "missing or malformed JWT"
 	ExpiredJWT          = "Invalid or expired JWT"
+	InvalidUser         = "invalid user"
 )
