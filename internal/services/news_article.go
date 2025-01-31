@@ -48,6 +48,17 @@ func (s *NewsArticleService) One(ctx context.Context, c *fiber.Ctx, id int) (*mo
 	return &dto, nil
 }
 
+// OneUnscoped Повертає видалену новину за ідентифікатором.
+func (s *NewsArticleService) OneUnscoped(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsArticleDTO, error) {
+	model, err := s.repo.NewsArticleOneUnscoped(ctx, id, locale(c))
+	if err != nil {
+		logger.Log().Warn(err)
+		return nil, errors.New(myerrors.ServiceNotAvailable)
+	}
+	dto := model.DTO()
+	return &dto, nil
+}
+
 // Exists Перевіряє існування запису за ідентифікатором.
 func (s *NewsArticleService) Exists(ctx context.Context, id int) (bool, error) {
 	exists, err := s.repo.NewsArticleExists(ctx, id)
@@ -68,17 +79,30 @@ func (s *NewsArticleService) ExistsUnscoped(ctx context.Context, id int) (bool, 
 	return exists, nil
 }
 
-// Create Створює нову новину.
+// Create Створює нову статтю.
 func (s *NewsArticleService) Create(ctx context.Context, c *fiber.Ctx, req request.NewsArticleRequest) (*models.NewsArticleDTO, error) {
 	var model models.NewsArticle
 	var dto models.NewsArticleDTO
-	req.Fill(&dto)
-	dto.FillModel(&model, locale(c))
-	err := s.repo.NewsArticleSave(ctx, &model)
+
+	jwtString := request.TokenFromRequest(c)
+	claims, err := request.ClaimsFromToken(jwtString)
+
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
 	}
+
+	userId := claims["sub"]
+	dto.UserId = int(userId.(float64))
+	req.Fill(&dto)
+	dto.FillModel(&model, locale(c))
+
+	err = s.repo.NewsArticleSave(ctx, &model)
+	if err != nil {
+		logger.Log().Warn(err)
+		return nil, errors.New(myerrors.ServiceNotAvailable)
+	}
+
 	dto = model.DTO()
 	return &dto, nil
 }

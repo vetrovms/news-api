@@ -12,6 +12,7 @@ type NewsArticle struct {
 	DefaultTitle string            `gorm:"column:default_title;type:string;size:255"`
 	PublishedAt  string            `gorm:"column:published_at;type:string"`
 	GroupId      int               `gorm:"column:group_id;type:int"`
+	UserId       int               `gorm:"column:user_id;type:int"`
 	Group        NewsGroup         `gorm:"foreignKey:id;references:group_id"`
 	Langs        []NewsArticleLang `gorm:"foreignKey:rid;references:id"`
 	CurLang      NewsArticleLang   `gorm:"foreignKey:rid;references:id"`
@@ -33,6 +34,7 @@ func (a *NewsArticle) DTO() NewsArticleDTO {
 		Published:        a.Published,
 		PublishedAt:      a.PublishedAt,
 		GroupId:          a.GroupId,
+		UserId:           a.UserId,
 		Group: NewsGroupDTO{
 			ID:        a.GroupId,
 			Title:     a.Group.Title(),

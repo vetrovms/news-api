@@ -15,11 +15,11 @@ import (
 
 // FileUploadController Контролер завантаження файлів.
 type FileUploadController struct {
-	service filesService
+	service FilesService
 }
 
 // NewFileUploadController Конструктор контролера новин.
-func NewFileUploadController(s filesService) FileUploadController {
+func NewFileUploadController(s FilesService) FileUploadController {
 	return FileUploadController{
 		service: s,
 	}

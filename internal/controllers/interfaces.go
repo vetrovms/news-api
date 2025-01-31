@@ -8,10 +8,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// newsService Інтерфейс сервіса новин.
-type newsService interface {
+// NewsService Інтерфейс сервіса новин.
+type NewsService interface {
 	List(ctx context.Context, c *fiber.Ctx) (*[]models.NewsArticleDTO, error)
 	One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsArticleDTO, error)
+	OneUnscoped(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsArticleDTO, error)
 	Exists(ctx context.Context, id int) (bool, error)
 	ExistsUnscoped(ctx context.Context, id int) (bool, error)
 	Create(ctx context.Context, c *fiber.Ctx, req request.NewsArticleRequest) (*models.NewsArticleDTO, error)
@@ -21,8 +22,8 @@ type newsService interface {
 	Delete(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error)
 }
 
-// groupsService інтерфейс сервіса груп новин.
-type groupsService interface {
+// GroupsService інтерфейс сервіса груп новин.
+type GroupsService interface {
 	List(ctx context.Context, c *fiber.Ctx) (*[]models.NewsGroupDTO, error)
 	One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsGroupDTO, error)
 	Exists(ctx context.Context, id int) (bool, error)
@@ -34,8 +35,8 @@ type groupsService interface {
 	Delete(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error)
 }
 
-// filesService Інтерфейс сервіса завантаження файлів.
-type filesService interface {
+// FilesService Інтерфейс сервіса завантаження файлів.
+type FilesService interface {
 	List(ctx context.Context) (*[]models.FileUploadDto, error)
 	Exists(ctx context.Context, id int) (bool, error)
 	One(ctx context.Context, id int) (*models.FileUploadDto, error)

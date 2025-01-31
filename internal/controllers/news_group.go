@@ -15,11 +15,11 @@ import (
 
 // NewsGroupController Контролер груп новин.
 type NewsGroupController struct {
-	service groupsService
+	service GroupsService
 }
 
 // NewNewsGroupController Конструктор контролера груп новин.
-func NewNewsGroupController(s groupsService) NewsGroupController {
+func NewNewsGroupController(s GroupsService) NewsGroupController {
 	return NewsGroupController{
 		service: s,
 	}

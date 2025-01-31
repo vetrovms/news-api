@@ -1,13 +1,18 @@
 package middleware
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 	"net/http"
 	"news/internal/config"
+	"news/internal/controllers"
 	myerrors "news/internal/errors"
+	"news/internal/request"
 	"news/internal/response"
+	"strconv"
 	"strings"
+	"time"
 
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
@@ -34,13 +39,11 @@ func jwtError(c *fiber.Ctx, err error) error {
 
 // jwtSuccess Ретроспективна перевірка токена.
 func jwtSuccess(c *fiber.Ctx) error {
-	reqToken := c.GetReqHeaders()["Authorization"][0]
-	splitToken := strings.Split(reqToken, "Bearer ")
-	reqToken = splitToken[1]
-
+	reqToken := request.TokenFromRequest(c)
 	reader := strings.NewReader("jwt=" + reqToken)
 	request, err := http.NewRequest("POST", config.NewEnv().RetrospectiveUrl, reader)
 	request.Header.Add("content-type", "application/x-www-form-urlencoded")
+
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
@@ -74,12 +77,55 @@ func jwtSuccess(c *fiber.Ctx) error {
 	return c.Next()
 }
 
+// RetrospectiveResponse Структура відповіді сервера авторизації.
 type RetrospectiveResponse struct {
 	Code   int
 	Errors []string
 	Data   RetrospectiveResponseData
 }
 
+// RetrospectiveResponseData Структура даних відповіді сервера авторизації.
 type RetrospectiveResponseData struct {
 	Result bool
+}
+
+// Config Конфігурація посередника перевірки авторства статті.
+type Config struct {
+	Filter  func(c *fiber.Ctx) bool
+	Service controllers.NewsService
+}
+
+// CheckAuthor Посередник перевірки авторства статті.
+func CheckAuthor(config Config) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		// id, err := c.ParamsInt("id") // неприємний сюрприз: на рівні middleware немає доступу до параметрів шляху
+		pathParts := strings.Split(c.Path(), "/")
+		id, err := strconv.Atoi(pathParts[4])
+		if err != nil {
+			r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+			return c.Status(fiber.StatusInternalServerError).JSON(r)
+		}
+
+		curUserId, err := request.CurrentUserId(c)
+		if err != nil {
+			r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+			return c.Status(fiber.StatusInternalServerError).JSON(r)
+		}
+
+		article, err := config.Service.OneUnscoped(ctx, c, id)
+		if err != nil {
+			r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
+			return c.Status(fiber.StatusInternalServerError).JSON(r)
+		}
+
+		if article.UserId != curUserId {
+			r := response.NewResponse(fiber.StatusForbidden, myerrors.InvalidUser, nil)
+			return c.Status(fiber.StatusForbidden).JSON(r)
+		}
+
+		return c.Next()
+	}
 }
