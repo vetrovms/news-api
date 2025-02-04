@@ -16,8 +16,6 @@ import (
 	"github.com/subosito/gotenv"
 )
 
-const idRule = "<int;min(1);max(2147483647)>"
-
 func init() {
 	gotenv.Load()
 }
@@ -94,5 +92,5 @@ func main() {
 }
 
 func idRoute() string {
-	return "/:id" + idRule
+	return "/:id<guid>"
 }

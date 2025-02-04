@@ -10,7 +10,7 @@ import (
 // FileUploadRequest Тіло запита завантаження файла.
 type FileUploadRequest struct {
 	EntityType string                `json:"entity_type" form:"entity_type" validate:"oneof=news_groups news_articles" example:"news_article"`
-	EntityId   int                   `json:"entity_id" form:"entity_id" example:"123"`
+	EntityId   string                `json:"entity_id" form:"entity_id" example:"0194cd77-d0ab-74db-88be-f9de341a4b5f"`
 	File       *multipart.FileHeader `swaggerignore:"true"`
 }
 

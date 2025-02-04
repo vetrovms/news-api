@@ -38,8 +38,8 @@ func (s *NewsGroupService) List(ctx context.Context, c *fiber.Ctx) (*[]models.Ne
 }
 
 // One Повертає групу новин за ідентифікатором.
-func (s *NewsGroupService) One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsGroupDTO, error) {
-	group, err := s.repo.NewsGroupOne(ctx, id, locale(c))
+func (s *NewsGroupService) One(ctx context.Context, c *fiber.Ctx, uuid string) (*models.NewsGroupDTO, error) {
+	group, err := s.repo.NewsGroupOne(ctx, uuid, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -49,8 +49,8 @@ func (s *NewsGroupService) One(ctx context.Context, c *fiber.Ctx, id int) (*mode
 }
 
 // Exists Перевіряє існування запису за ідентифікатором.
-func (s *NewsGroupService) Exists(ctx context.Context, id int) (bool, error) {
-	exists, err := s.repo.NewsGroupExists(ctx, id)
+func (s *NewsGroupService) Exists(ctx context.Context, uuid string) (bool, error) {
+	exists, err := s.repo.NewsGroupExists(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return exists, errors.New(myerrors.ServiceNotAvailable)
@@ -59,8 +59,8 @@ func (s *NewsGroupService) Exists(ctx context.Context, id int) (bool, error) {
 }
 
 // ExistsUnscoped Перевіряє існування м'яко видаленого запису за ідентифікатором.
-func (s *NewsGroupService) ExistsUnscoped(ctx context.Context, id int) (bool, error) {
-	exists, err := s.repo.NewsGroupExistsUnscoped(ctx, id)
+func (s *NewsGroupService) ExistsUnscoped(ctx context.Context, uuid string) (bool, error) {
+	exists, err := s.repo.NewsGroupExistsUnscoped(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return exists, errors.New(myerrors.ServiceNotAvailable)
@@ -85,11 +85,11 @@ func (s *NewsGroupService) Create(ctx context.Context, c *fiber.Ctx, req request
 }
 
 // Update Оновлює групу новин.
-func (s *NewsGroupService) Update(ctx context.Context, c *fiber.Ctx, req request.NewsGroupRequest, id int) (*models.NewsGroupDTO, error) {
+func (s *NewsGroupService) Update(ctx context.Context, c *fiber.Ctx, req request.NewsGroupRequest, uuid string) (*models.NewsGroupDTO, error) {
 	var dto models.NewsGroupDTO
 	req.Fill(&dto)
-	dto.ID = id
-	model, err := s.repo.NewsGroupOne(ctx, dto.ID, locale(c))
+	dto.Uuid = uuid
+	model, err := s.repo.NewsGroupOne(ctx, dto.Uuid, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -105,8 +105,8 @@ func (s *NewsGroupService) Update(ctx context.Context, c *fiber.Ctx, req request
 }
 
 // Trash М'яке видалення групи новин.
-func (s *NewsGroupService) Trash(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOne(ctx, id, locale)
+func (s *NewsGroupService) Trash(ctx context.Context, uuid string, locale string) (*models.NewsGroupDTO, error) {
+	model, err := s.repo.NewsGroupOne(ctx, uuid, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -121,8 +121,8 @@ func (s *NewsGroupService) Trash(ctx context.Context, id int, locale string) (*m
 }
 
 // Recover Відновлення групи новин після м'якого видалення.
-func (s *NewsGroupService) Recover(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOneUnscoped(ctx, id, locale)
+func (s *NewsGroupService) Recover(ctx context.Context, uuid string, locale string) (*models.NewsGroupDTO, error) {
+	model, err := s.repo.NewsGroupOneUnscoped(ctx, uuid, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -137,8 +137,8 @@ func (s *NewsGroupService) Recover(ctx context.Context, id int, locale string) (
 }
 
 // Delete Остаточне видалення групи новин.
-func (s *NewsGroupService) Delete(ctx context.Context, id int, locale string) (*models.NewsGroupDTO, error) {
-	model, err := s.repo.NewsGroupOneUnscoped(ctx, id, locale)
+func (s *NewsGroupService) Delete(ctx context.Context, uuid string, locale string) (*models.NewsGroupDTO, error) {
+	model, err := s.repo.NewsGroupOneUnscoped(ctx, uuid, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)

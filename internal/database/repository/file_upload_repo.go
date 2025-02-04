@@ -18,16 +18,16 @@ func (repo *Repo) FileUploadList(ctx context.Context) ([]models.FileUpload, erro
 }
 
 // FileUploadExists Перевірка існування файла за ідентифікатором.
-func (repo *Repo) FileUploadExists(ctx context.Context, id int) (bool, error) {
+func (repo *Repo) FileUploadExists(ctx context.Context, uuid string) (bool, error) {
 	var exists bool
-	err := repo.db.WithContext(ctx).Model(models.FileUpload{}).Select("count(*) > 0").Where("id = ?", id).Find(&exists).Error
+	err := repo.db.WithContext(ctx).Model(models.FileUpload{}).Select("count(*) > 0").Where("uuid = ?", uuid).Find(&exists).Error
 	return exists, err
 }
 
 // FileUploadOne Повертає файл за ідентифікатором.
-func (repo *Repo) FileUploadOne(ctx context.Context, id int) (models.FileUpload, error) {
+func (repo *Repo) FileUploadOne(ctx context.Context, uuid string) (models.FileUpload, error) {
 	model := models.FileUpload{}
-	err := repo.db.WithContext(ctx).First(&model, id).Error
+	err := repo.db.WithContext(ctx).First(&model, "uuid = ?", uuid).Error
 	return model, err
 }
 

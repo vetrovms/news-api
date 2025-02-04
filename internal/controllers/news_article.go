@@ -57,7 +57,7 @@ func (controller *NewsArticleController) GetNewsArticles(c *fiber.Ctx) error {
 //	@Tags			news
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int		true	"id новини"
+//	@Param			id		path		string	true	"uuid новини"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Success		200		{object}	response.DocGetNewsArticleResponse200
 //	@Failure		400		{object}	response.DocGetNewsArticleResponse400
@@ -68,11 +68,7 @@ func (controller *NewsArticleController) GetNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {
@@ -140,7 +136,7 @@ func (controller *NewsArticleController) AddNewsArticle(c *fiber.Ctx) error {
 //	@Tags			news
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int		true	"id новини"
+//	@Param			id		path		string	true	"uuid новини"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Param          request body request.NewsArticleRequest true "news article request"
 //	@Success		200		{object}	response.DocGetNewsArticleResponse200
@@ -152,11 +148,7 @@ func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {
@@ -197,7 +189,7 @@ func (controller *NewsArticleController) UpdateNewsArticle(c *fiber.Ctx) error {
 //	@Tags			news
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id новини"
+//	@Param			id	path		string	true	"uuid новини"
 //	@Success		200	{object}	response.DocGetNewsArticleResponse200
 //	@Failure		400	{object}	response.DocGetNewsArticleResponse400
 //	@Failure		404	{object}	response.DocGetNewsArticleResponse404
@@ -207,11 +199,7 @@ func (controller *NewsArticleController) TrashNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {
@@ -240,7 +228,7 @@ func (controller *NewsArticleController) TrashNewsArticle(c *fiber.Ctx) error {
 //	@Tags			news
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id новини"
+//	@Param			id	path		string	true	"uuid новини"
 //	@Success		200	{object}	response.DocGetNewsArticleResponse200
 //	@Failure		400	{object}	response.DocGetNewsArticleResponse400
 //	@Failure		404	{object}	response.DocGetNewsArticleResponse404
@@ -250,11 +238,7 @@ func (controller *NewsArticleController) RecoverNewsArticle(c *fiber.Ctx) error 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.ExistsUnscoped(ctx, id)
 	if err != nil {
@@ -283,7 +267,7 @@ func (controller *NewsArticleController) RecoverNewsArticle(c *fiber.Ctx) error 
 //	@Tags			news
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id новини"
+//	@Param			id	path		string	true	"uuid новини"
 //	@Success		200	{object}	response.DocGetNewsArticleResponse200
 //	@Failure		400	{object}	response.DocGetNewsArticleResponse400
 //	@Failure		404	{object}	response.DocGetNewsArticleResponse404
@@ -293,11 +277,7 @@ func (controller *NewsArticleController) DeleteNewsArticle(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.ExistsUnscoped(ctx, id)
 	if err != nil {

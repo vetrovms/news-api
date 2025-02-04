@@ -60,7 +60,7 @@ func (controller *NewsGroupController) GetNewsGroups(c *fiber.Ctx) error {
 //	@Tags			groups
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int		true	"id групи новин"
+//	@Param			id		path		string	true	"uuid групи новин"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Success		200		{object}	response.DocGetNewsGroupResponse200
 //	@Failure		400		{object}	response.DocGetNewsGroupResponse400
@@ -71,12 +71,7 @@ func (controller *NewsGroupController) GetNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
-
+	id := c.Params("id")
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
@@ -144,7 +139,7 @@ func (controller *NewsGroupController) AddNewsGroup(c *fiber.Ctx) error {
 //	@Tags			groups
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int		true	"id групи новин"
+//	@Param			id		path		string	true	"uuid групи новин"
 //	@Param			locale	query		string	false	"string enums"	Enums(en, uk)	"локаль; за замовчуванням en"
 //	@Param          request body request.NewsGroupRequest true "news group request"
 //	@Success		200		{object}	response.DocGetNewsGroupResponse200
@@ -156,11 +151,7 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {
@@ -202,7 +193,7 @@ func (controller *NewsGroupController) UpdateNewsGroup(c *fiber.Ctx) error {
 //	@Tags			groups
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id групи новин"
+//	@Param			id	path		string	true	"uuid групи новин"
 //	@Success		200	{object}	response.DocGetNewsGroupResponse200
 //	@Failure		400	{object}	response.DocGetNewsGroupResponse400
 //	@Failure		404	{object}	response.DocGetNewsGroupResponse404
@@ -212,17 +203,14 @@ func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
-
+	id := c.Params("id")
 	exists, err := controller.service.Exists(ctx, id)
+
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
+
 	if !exists {
 		r := response.NewResponse(fiber.StatusNotFound, myerrors.ResourceNotFound, nil)
 		return c.Status(fiber.StatusNotFound).JSON(r)
@@ -245,7 +233,7 @@ func (controller *NewsGroupController) TrashNewsGroup(c *fiber.Ctx) error {
 //	@Tags			groups
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id групи новин"
+//	@Param			id	path		string	true	"uuid групи новин"
 //	@Success		200	{object}	response.DocGetNewsGroupResponse200
 //	@Failure		400	{object}	response.DocGetNewsGroupResponse400
 //	@Failure		404	{object}	response.DocGetNewsGroupResponse404
@@ -255,17 +243,14 @@ func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
-
+	id := c.Params("id")
 	exists, err := controller.service.ExistsUnscoped(ctx, id)
+
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)
 	}
+
 	if !exists {
 		r := response.NewResponse(fiber.StatusNotFound, myerrors.ResourceNotFound, nil)
 		return c.Status(fiber.StatusNotFound).JSON(r)
@@ -288,7 +273,7 @@ func (controller *NewsGroupController) RecoverNewsGroup(c *fiber.Ctx) error {
 //	@Tags			groups
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id групи новин"
+//	@Param			id	path		string	true	"uuid групи новин"
 //	@Success		200	{object}	response.DocGetNewsGroupResponse200
 //	@Failure		400	{object}	response.DocGetNewsGroupResponse400
 //	@Failure		404	{object}	response.DocGetNewsGroupResponse404
@@ -298,13 +283,9 @@ func (controller *NewsGroupController) DeleteNewsGroup(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
-
+	id := c.Params("id")
 	exists, err := controller.service.ExistsUnscoped(ctx, id)
+
 	if err != nil {
 		r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
 		return c.Status(fiber.StatusInternalServerError).JSON(r)

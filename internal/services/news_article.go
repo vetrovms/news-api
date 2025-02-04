@@ -38,8 +38,8 @@ func (s *NewsArticleService) List(ctx context.Context, c *fiber.Ctx) (*[]models.
 }
 
 // One Повертає новину за ідентифікатором.
-func (s *NewsArticleService) One(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsArticleDTO, error) {
-	model, err := s.repo.NewsArticleOne(ctx, id, locale(c))
+func (s *NewsArticleService) One(ctx context.Context, c *fiber.Ctx, uuid string) (*models.NewsArticleDTO, error) {
+	model, err := s.repo.NewsArticleOne(ctx, uuid, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -49,8 +49,8 @@ func (s *NewsArticleService) One(ctx context.Context, c *fiber.Ctx, id int) (*mo
 }
 
 // OneUnscoped Повертає видалену новину за ідентифікатором.
-func (s *NewsArticleService) OneUnscoped(ctx context.Context, c *fiber.Ctx, id int) (*models.NewsArticleDTO, error) {
-	model, err := s.repo.NewsArticleOneUnscoped(ctx, id, locale(c))
+func (s *NewsArticleService) OneUnscoped(ctx context.Context, c *fiber.Ctx, uuid string) (*models.NewsArticleDTO, error) {
+	model, err := s.repo.NewsArticleOneUnscoped(ctx, uuid, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -60,8 +60,8 @@ func (s *NewsArticleService) OneUnscoped(ctx context.Context, c *fiber.Ctx, id i
 }
 
 // Exists Перевіряє існування запису за ідентифікатором.
-func (s *NewsArticleService) Exists(ctx context.Context, id int) (bool, error) {
-	exists, err := s.repo.NewsArticleExists(ctx, id)
+func (s *NewsArticleService) Exists(ctx context.Context, uuid string) (bool, error) {
+	exists, err := s.repo.NewsArticleExists(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return exists, errors.New(myerrors.ServiceNotAvailable)
@@ -70,8 +70,8 @@ func (s *NewsArticleService) Exists(ctx context.Context, id int) (bool, error) {
 }
 
 // ExistsUnscoped Перевіряє існування м'яко видаленого запису за ідентифікатором.
-func (s *NewsArticleService) ExistsUnscoped(ctx context.Context, id int) (bool, error) {
-	exists, err := s.repo.NewsArticleExistsUnscoped(ctx, id)
+func (s *NewsArticleService) ExistsUnscoped(ctx context.Context, uuid string) (bool, error) {
+	exists, err := s.repo.NewsArticleExistsUnscoped(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return exists, errors.New(myerrors.ServiceNotAvailable)
@@ -108,12 +108,12 @@ func (s *NewsArticleService) Create(ctx context.Context, c *fiber.Ctx, req reque
 }
 
 // Update Оновлює новину.
-func (s *NewsArticleService) Update(ctx context.Context, c *fiber.Ctx, req request.NewsArticleRequest, id int) (*models.NewsArticleDTO, error) {
+func (s *NewsArticleService) Update(ctx context.Context, c *fiber.Ctx, req request.NewsArticleRequest, uuid string) (*models.NewsArticleDTO, error) {
 	var dto models.NewsArticleDTO
 	req.Fill(&dto)
-	dto.ID = id
+	dto.Uuid = uuid
 
-	model, err := s.repo.NewsArticleOne(ctx, dto.ID, locale(c))
+	model, err := s.repo.NewsArticleOne(ctx, dto.Uuid, locale(c))
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -131,8 +131,8 @@ func (s *NewsArticleService) Update(ctx context.Context, c *fiber.Ctx, req reque
 }
 
 // Trash М'яке видалення новини.
-func (s *NewsArticleService) Trash(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error) {
-	model, err := s.repo.NewsArticleOne(ctx, id, locale)
+func (s *NewsArticleService) Trash(ctx context.Context, uuid string, locale string) (*models.NewsArticleDTO, error) {
+	model, err := s.repo.NewsArticleOne(ctx, uuid, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -147,8 +147,8 @@ func (s *NewsArticleService) Trash(ctx context.Context, id int, locale string) (
 }
 
 // Recover Відновлення новини після м'якого видалення.
-func (s *NewsArticleService) Recover(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error) {
-	model, err := s.repo.NewsArticleOneUnscoped(ctx, id, locale)
+func (s *NewsArticleService) Recover(ctx context.Context, uuid string, locale string) (*models.NewsArticleDTO, error) {
+	model, err := s.repo.NewsArticleOneUnscoped(ctx, uuid, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -163,8 +163,8 @@ func (s *NewsArticleService) Recover(ctx context.Context, id int, locale string)
 }
 
 // Delete Остаточне видалення новини.
-func (s *NewsArticleService) Delete(ctx context.Context, id int, locale string) (*models.NewsArticleDTO, error) {
-	model, err := s.repo.NewsArticleOneUnscoped(ctx, id, locale)
+func (s *NewsArticleService) Delete(ctx context.Context, uuid string, locale string) (*models.NewsArticleDTO, error) {
+	model, err := s.repo.NewsArticleOneUnscoped(ctx, uuid, locale)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)

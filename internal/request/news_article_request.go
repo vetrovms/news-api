@@ -13,7 +13,7 @@ type NewsArticleRequest struct {
 	Content          string `json:"content" validate:"required,max=64000" example:"Сьогодні щось відбулось."`
 	ShortDescription string `json:"short_description" validate:"omitempty,max=1000" example:"Короткий опис новини."`
 	PublishedAt      string `json:"published_at" form:"published_at" validate:"omitempty,datetime=2006-01-02T15:04:05Z" example:"2006-01-02T15:04:05Z"`
-	GroupId          int    `json:"group_id" form:"group_id" validate:"number" example:"3"`
+	GroupId          string `json:"group_id" form:"group_id" validate:"uuid" example:"30194cd77-d0ab-74db-88be-f9de341a4b5f"`
 }
 
 // Fill Заповнює DTO.

@@ -56,7 +56,7 @@ func (controller *FileUploadController) GetFileUploads(c *fiber.Ctx) error {
 //	@Tags			files
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id файла"
+//	@Param			id	path		string	true	"uuid файла"
 //	@Success		200	{object}	response.DocGetFileUpload200
 //	@Failure		400	{object}	response.DocGetFileUpload400
 //	@Failure		404	{object}	response.DocGetFileUpload404
@@ -66,11 +66,7 @@ func (controller *FileUploadController) GetFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {
@@ -140,7 +136,7 @@ func (controller *FileUploadController) AddFileUpload(c *fiber.Ctx) error {
 //	@Tags			files
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"id файла"
+//	@Param			id	path		string	true	"uuid файла"
 //	@Success		200	{object}	response.DocGetFileUpload200
 //	@Failure		400	{object}	response.DocGetFileUpload400
 //	@Failure		404	{object}	response.DocGetFileUpload404
@@ -150,11 +146,7 @@ func (controller *FileUploadController) DeleteFileUpload(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		r := response.NewResponse(fiber.StatusBadRequest, err.Error(), nil)
-		return c.Status(fiber.StatusBadRequest).JSON(r)
-	}
+	id := c.Params("id")
 
 	exists, err := controller.service.Exists(ctx, id)
 	if err != nil {

@@ -3,19 +3,19 @@ definitions:
   models.FileUploadDto:
     properties:
       entity_id:
-        example: 123
-        type: integer
+        example: 0194cd77-d0ab-74db-88be-f9de341a4b5f
+        type: string
       entity_type:
         example: news_articles
         type: string
-      id:
-        example: 1
-        type: integer
       name:
         example: article_img_123.png
         type: string
       path:
         example: /uploads/article_img_123.png
+        type: string
+      uuid:
+        example: 0194cd77-d0ab-74db-88be-f9de341a4b5f
         type: string
     type: object
   models.NewsArticleDTO:
@@ -33,11 +33,8 @@ definitions:
       group:
         $ref: '#/definitions/models.NewsGroupDTO'
       group_id:
-        example: 222
-        type: integer
-      id:
-        example: 111
-        type: integer
+        example: 0194cd77-d0ab-74db-88be-f9de341a4b5f
+        type: string
       published:
         example: true
         type: boolean
@@ -50,6 +47,12 @@ definitions:
       title:
         example: Хороша новина
         type: string
+      user_id:
+        example: 456
+        type: integer
+      uuid:
+        example: 0194cd77-d0ab-74db-88be-f9de341a4b5f
+        type: string
     type: object
   models.NewsGroupDTO:
     properties:
@@ -60,21 +63,21 @@ definitions:
         items:
           $ref: '#/definitions/models.FileUploadDto'
         type: array
-      id:
-        example: 321
-        type: integer
       published:
         example: true
         type: boolean
       title:
         example: Спорт
         type: string
+      uuid:
+        example: 0194cd77-d0ab-74db-88be-f9de341a4b5f
+        type: string
     type: object
   request.FileUploadRequest:
     properties:
       entity_id:
-        example: 123
-        type: integer
+        example: 0194cd77-d0ab-74db-88be-f9de341a4b5f
+        type: string
       entity_type:
         enum:
         - news_groups
@@ -93,8 +96,8 @@ definitions:
         maxLength: 64000
         type: string
       group_id:
-        example: 3
-        type: integer
+        example: 30194cd77-d0ab-74db-88be-f9de341a4b5f
+        type: string
       published:
         type: boolean
       published_at:
@@ -443,11 +446,11 @@ paths:
       - application/json
       description: видалення файла
       parameters:
-      - description: id файла
+      - description: uuid файла
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -475,11 +478,11 @@ paths:
       - application/json
       description: Інформація про файл
       parameters:
-      - description: id файла
+      - description: uuid файла
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -583,11 +586,11 @@ paths:
       - application/json
       description: остаточне видалення групи новин
       parameters:
-      - description: id групи новин
+      - description: uuid групи новин
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -615,11 +618,11 @@ paths:
       - application/json
       description: Інформація про групу новин
       parameters:
-      - description: id групи новин
+      - description: uuid групи новин
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: string enums
         enum:
         - en
@@ -654,11 +657,11 @@ paths:
       - application/json
       description: Оновлення групи новин
       parameters:
-      - description: id групи новин
+      - description: uuid групи новин
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: string enums
         enum:
         - en
@@ -700,11 +703,11 @@ paths:
       - application/json
       description: відновлення групи новин після м'якого видалення
       parameters:
-      - description: id групи новин
+      - description: uuid групи новин
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -733,11 +736,11 @@ paths:
       - application/json
       description: м'яке видалення групи новин
       parameters:
-      - description: id групи новин
+      - description: uuid групи новин
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -829,11 +832,11 @@ paths:
       - application/json
       description: остаточне видалення новини
       parameters:
-      - description: id новини
+      - description: uuid новини
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -861,11 +864,11 @@ paths:
       - application/json
       description: Інформація про новину
       parameters:
-      - description: id новини
+      - description: uuid новини
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: string enums
         enum:
         - en
@@ -900,11 +903,11 @@ paths:
       - application/json
       description: Оновлення новини
       parameters:
-      - description: id новини
+      - description: uuid новини
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: string enums
         enum:
         - en
@@ -946,11 +949,11 @@ paths:
       - application/json
       description: відновлення новини після м'якого видалення
       parameters:
-      - description: id новини
+      - description: uuid новини
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -979,11 +982,11 @@ paths:
       - application/json
       description: м'яке видалення новини
       parameters:
-      - description: id новини
+      - description: uuid новини
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

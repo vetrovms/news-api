@@ -11,6 +11,8 @@ type Env struct {
 	UploadDir        string // Директорія завантаження файлів.
 	JwtSecretKey     string // Таємний ключ для генерації jwt токена.
 	RetrospectiveUrl string // URL на сервері авторизації для ретроспективної перевірки jwt токена.
+	ClientId         string // OAUTH2 client id.
+	ClientSecret     string // OAUTH2 client secret.
 }
 
 // newsApiLogPath Назва змінної оточення що містить шлях до файлу логування.
@@ -34,6 +36,12 @@ const jwtSecretKey = "NEWS_API_JWT_SECRET_KEY"
 // retrospectiveUrl Назва змінної оточення що містить URL на сервері авторизації для ретроспективної перевірки jwt токена.
 const retrospectiveUrl = "NEWS_API_RETROSPECTIVE_URL"
 
+// clientId OAUTH2 client id.
+const clientId = "NEWS_API_CLIENT_ID"
+
+// clientSecret OAUTH2 client secret.
+const clientSecret = "NEWS_API_CLIENT_SECRET"
+
 // NewEnv Повертає об'єкт конфігурації, заповнений зі змінних оточення.
 func NewEnv() Env {
 	return Env{
@@ -44,5 +52,7 @@ func NewEnv() Env {
 		UploadDir:        uploadDir,
 		JwtSecretKey:     os.Getenv(jwtSecretKey),
 		RetrospectiveUrl: os.Getenv(retrospectiveUrl),
+		ClientId:         os.Getenv(clientId),
+		ClientSecret:     os.Getenv(clientSecret),
 	}
 }

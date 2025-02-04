@@ -10,7 +10,6 @@ import (
 	myerrors "news/internal/errors"
 	"news/internal/request"
 	"news/internal/response"
-	"strconv"
 	"strings"
 	"time"
 
@@ -40,7 +39,9 @@ func jwtError(c *fiber.Ctx, err error) error {
 // jwtSuccess Ретроспективна перевірка токена.
 func jwtSuccess(c *fiber.Ctx) error {
 	reqToken := request.TokenFromRequest(c)
-	reader := strings.NewReader("jwt=" + reqToken)
+	reader := strings.NewReader(
+		"jwt=" + reqToken + "&client_id=" + config.NewEnv().ClientId + "&client_secret=" + config.NewEnv().ClientSecret,
+	)
 	request, err := http.NewRequest("POST", config.NewEnv().RetrospectiveUrl, reader)
 	request.Header.Add("content-type", "application/x-www-form-urlencoded")
 
@@ -103,11 +104,7 @@ func CheckAuthor(config Config) fiber.Handler {
 
 		// id, err := c.ParamsInt("id") // неприємний сюрприз: на рівні middleware немає доступу до параметрів шляху
 		pathParts := strings.Split(c.Path(), "/")
-		id, err := strconv.Atoi(pathParts[4])
-		if err != nil {
-			r := response.NewResponse(fiber.StatusInternalServerError, err.Error(), nil)
-			return c.Status(fiber.StatusInternalServerError).JSON(r)
-		}
+		id := pathParts[4]
 
 		curUserId, err := request.CurrentUserId(c)
 		if err != nil {

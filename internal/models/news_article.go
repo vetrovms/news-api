@@ -1,21 +1,27 @@
 package models
 
 import (
+	"time"
+
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 // NewsArticle Модель статті.
 type NewsArticle struct {
-	gorm.Model
+	Uuid         string `gorm:"primaryKey;type:uuid"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    gorm.DeletedAt    `gorm:"index"`
 	Alias        string            `gorm:"column:alias;type:string;size:255"`
 	Published    bool              `gorm:"column:published;type:bool"`
 	DefaultTitle string            `gorm:"column:default_title;type:string;size:255"`
 	PublishedAt  string            `gorm:"column:published_at;type:string"`
-	GroupId      int               `gorm:"column:group_id;type:int"`
+	GroupId      string            `gorm:"column:group_id;type:string"`
 	UserId       int               `gorm:"column:user_id;type:int"`
-	Group        NewsGroup         `gorm:"foreignKey:id;references:group_id"`
-	Langs        []NewsArticleLang `gorm:"foreignKey:rid;references:id"`
-	CurLang      NewsArticleLang   `gorm:"foreignKey:rid;references:id"`
+	Group        NewsGroup         `gorm:"foreignKey:uuid;references:group_id"`
+	Langs        []NewsArticleLang `gorm:"foreignKey:rid;references:uuid"`
+	CurLang      NewsArticleLang   `gorm:"foreignKey:rid;references:uuid"`
 	Files        []FileUpload      `gorm:"polymorphicType:EntityType;polymorphicId:EntityId;polymorphicValue:news_articles"`
 }
 
@@ -26,7 +32,7 @@ func (a *NewsArticle) DTO() NewsArticleDTO {
 		filesDTO[i] = f.DTO()
 	}
 	return NewsArticleDTO{
-		ID:               int(a.ID),
+		Uuid:             a.Uuid,
 		Title:            a.Title(),
 		Content:          a.CurLang.Content,
 		ShortDescription: a.CurLang.ShortDescription,
@@ -36,7 +42,7 @@ func (a *NewsArticle) DTO() NewsArticleDTO {
 		GroupId:          a.GroupId,
 		UserId:           a.UserId,
 		Group: NewsGroupDTO{
-			ID:        a.GroupId,
+			Uuid:      a.GroupId,
 			Title:     a.Group.Title(),
 			Alias:     a.Group.Alias,
 			Published: a.Group.Published,
@@ -51,4 +57,10 @@ func (a *NewsArticle) Title() string {
 		return a.CurLang.Title
 	}
 	return a.DefaultTitle
+}
+
+// BeforeCreate Генерація uuid.
+func (n *NewsArticle) BeforeCreate(tx *gorm.DB) (err error) {
+	n.Uuid = uuid.New().String()
+	return
 }

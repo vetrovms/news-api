@@ -42,8 +42,8 @@ func (s *FileUploadService) List(ctx context.Context) (*[]models.FileUploadDto, 
 }
 
 // Exists Перевіряє існування запису за ідентифікатором.
-func (s *FileUploadService) Exists(ctx context.Context, id int) (bool, error) {
-	exists, err := s.repo.FileUploadExists(ctx, id)
+func (s *FileUploadService) Exists(ctx context.Context, uuid string) (bool, error) {
+	exists, err := s.repo.FileUploadExists(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return exists, errors.New(myerrors.ServiceNotAvailable)
@@ -52,8 +52,8 @@ func (s *FileUploadService) Exists(ctx context.Context, id int) (bool, error) {
 }
 
 // One Повертає файл за ідентифікатором.
-func (s *FileUploadService) One(ctx context.Context, id int) (*models.FileUploadDto, error) {
-	model, err := s.repo.FileUploadOne(ctx, id)
+func (s *FileUploadService) One(ctx context.Context, uuid string) (*models.FileUploadDto, error) {
+	model, err := s.repo.FileUploadOne(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)
@@ -97,8 +97,8 @@ func (s *FileUploadService) Create(ctx context.Context, c *fiber.Ctx, req reques
 }
 
 // Delete Видалення файла.
-func (s *FileUploadService) Delete(ctx context.Context, id int) (*models.FileUploadDto, error) {
-	model, err := s.repo.FileUploadOne(ctx, id)
+func (s *FileUploadService) Delete(ctx context.Context, uuid string) (*models.FileUploadDto, error) {
+	model, err := s.repo.FileUploadOne(ctx, uuid)
 	if err != nil {
 		logger.Log().Warn(err)
 		return nil, errors.New(myerrors.ServiceNotAvailable)

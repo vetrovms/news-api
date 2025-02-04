@@ -118,8 +118,8 @@ const docTemplate = `{
                 "summary": "Інформація про файл",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id файла",
+                        "type": "string",
+                        "description": "uuid файла",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -166,8 +166,8 @@ const docTemplate = `{
                 "summary": "видалення файла",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id файла",
+                        "type": "string",
+                        "description": "uuid файла",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -329,8 +329,8 @@ const docTemplate = `{
                 "summary": "Інформація про групу новин",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id групи новин",
+                        "type": "string",
+                        "description": "uuid групи новин",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -387,8 +387,8 @@ const docTemplate = `{
                 "summary": "Оновлення групи новин",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id групи новин",
+                        "type": "string",
+                        "description": "uuid групи новин",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -454,8 +454,8 @@ const docTemplate = `{
                 "summary": "остаточне видалення групи новин",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id групи новин",
+                        "type": "string",
+                        "description": "uuid групи новин",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -504,8 +504,8 @@ const docTemplate = `{
                 "summary": "відновлення групи новин після м'якого видалення",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id групи новин",
+                        "type": "string",
+                        "description": "uuid групи новин",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -554,8 +554,8 @@ const docTemplate = `{
                 "summary": "м'яке видалення групи новин",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id групи новин",
+                        "type": "string",
+                        "description": "uuid групи новин",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -699,8 +699,8 @@ const docTemplate = `{
                 "summary": "Інформація про новину",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id новини",
+                        "type": "string",
+                        "description": "uuid новини",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -757,8 +757,8 @@ const docTemplate = `{
                 "summary": "Оновлення новини",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id новини",
+                        "type": "string",
+                        "description": "uuid новини",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -824,8 +824,8 @@ const docTemplate = `{
                 "summary": "остаточне видалення новини",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id новини",
+                        "type": "string",
+                        "description": "uuid новини",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -874,8 +874,8 @@ const docTemplate = `{
                 "summary": "відновлення новини після м'якого видалення",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id новини",
+                        "type": "string",
+                        "description": "uuid новини",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -924,8 +924,8 @@ const docTemplate = `{
                 "summary": "м'яке видалення новини",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id новини",
+                        "type": "string",
+                        "description": "uuid новини",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -965,16 +965,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "entity_id": {
-                    "type": "integer",
-                    "example": 123
+                    "type": "string",
+                    "example": "0194cd77-d0ab-74db-88be-f9de341a4b5f"
                 },
                 "entity_type": {
                     "type": "string",
                     "example": "news_articles"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
                 },
                 "name": {
                     "type": "string",
@@ -983,6 +979,10 @@ const docTemplate = `{
                 "path": {
                     "type": "string",
                     "example": "/uploads/article_img_123.png"
+                },
+                "uuid": {
+                    "type": "string",
+                    "example": "0194cd77-d0ab-74db-88be-f9de341a4b5f"
                 }
             }
         },
@@ -1007,12 +1007,8 @@ const docTemplate = `{
                     "$ref": "#/definitions/models.NewsGroupDTO"
                 },
                 "group_id": {
-                    "type": "integer",
-                    "example": 222
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 111
+                    "type": "string",
+                    "example": "0194cd77-d0ab-74db-88be-f9de341a4b5f"
                 },
                 "published": {
                     "type": "boolean",
@@ -1029,6 +1025,14 @@ const docTemplate = `{
                 "title": {
                     "type": "string",
                     "example": "Хороша новина"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 456
+                },
+                "uuid": {
+                    "type": "string",
+                    "example": "0194cd77-d0ab-74db-88be-f9de341a4b5f"
                 }
             }
         },
@@ -1045,10 +1049,6 @@ const docTemplate = `{
                         "$ref": "#/definitions/models.FileUploadDto"
                     }
                 },
-                "id": {
-                    "type": "integer",
-                    "example": 321
-                },
                 "published": {
                     "type": "boolean",
                     "example": true
@@ -1056,6 +1056,10 @@ const docTemplate = `{
                 "title": {
                     "type": "string",
                     "example": "Спорт"
+                },
+                "uuid": {
+                    "type": "string",
+                    "example": "0194cd77-d0ab-74db-88be-f9de341a4b5f"
                 }
             }
         },
@@ -1063,8 +1067,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "entity_id": {
-                    "type": "integer",
-                    "example": 123
+                    "type": "string",
+                    "example": "0194cd77-d0ab-74db-88be-f9de341a4b5f"
                 },
                 "entity_type": {
                     "type": "string",
@@ -1095,8 +1099,8 @@ const docTemplate = `{
                     "example": "Сьогодні щось відбулось."
                 },
                 "group_id": {
-                    "type": "integer",
-                    "example": 3
+                    "type": "string",
+                    "example": "30194cd77-d0ab-74db-88be-f9de341a4b5f"
                 },
                 "published": {
                     "type": "boolean"
